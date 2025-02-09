@@ -187,8 +187,8 @@ const globalStyles = `
     }
 `;
 
-const styleSheet = document.createElement("style");
-styleSheet.innerText = globalStyles;
-document.head.appendChild(styleSheet);
+// const styleSheet = document.createElement("style");
+// styleSheet.innerText = globalStyles;
+// document.head.appendChild(styleSheet);
 
 export default Question2;
