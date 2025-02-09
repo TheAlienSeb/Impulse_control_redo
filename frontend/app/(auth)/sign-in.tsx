@@ -13,40 +13,40 @@ const SignIn = () => {
     const [userPassword, setUserPassword] = useState('');
     const [loading, setLoading] = useState(true); // Tracks if session is being checked
 
-    useEffect(() => {
-        const checkUserSession = async () => {
-            try {
-                const storedUser = await AsyncStorage.getItem('user');
-                if (storedUser) {
-                    router.replace('/home'); // Redirect if user is already signed in
-                    return;
-                }
-            } catch (error) {
-                console.error('Error checking user session:', error);
-            }
-            setLoading(false); // Stop loading once check is complete
-        };
+    // useEffect(() => {
+    //     const checkUserSession = async () => {
+    //         try {
+    //             const storedUser = await AsyncStorage.getItem('user');
+    //             if (storedUser) {
+    //                 router.replace('/home'); // Redirect if user is already signed in
+    //                 return;
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking user session:', error);
+    //         }
+    //         setLoading(false); // Stop loading once check is complete
+    //     };
 
-        checkUserSession();
-    }, []);
+    //     checkUserSession();
+    // }, []);
 
-    const handleSignIn = async () => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/signin', {
-                email: userEmail,
-                password: userPassword
-            });
+    // const handleSignIn = async () => {
+    //     try {
+    //         const response = await axios.post('http://localhost:5000/api/signin', {
+    //             email: userEmail,
+    //             password: userPassword
+    //         });
 
-            const userData = response.data.user;
-            await AsyncStorage.setItem('user', JSON.stringify(userData)); // Store session
-            Alert.alert('Success', 'Signed in successfully!');
-            router.replace('../(root)/(tabs)/home'); // Redirect to home
+    //         const userData = response.data.user;
+    //         await AsyncStorage.setItem('user', JSON.stringify(userData)); // Store session
+    //         Alert.alert('Success', 'Signed in successfully!');
+    //         router.replace('../(root)/(tabs)/home'); // Redirect to home
             
-        } catch (error) {
-            console.error('Signin error:', error.response?.data || error.message);
-            Alert.alert('Error', 'Invalid credentials');
-        }
-    };
+    //     } catch (error) {
+    //         console.error('Signin error:', error.response?.data || error.message);
+    //         Alert.alert('Error', 'Invalid credentials');
+    //     }
+    // };
 
     return (
         <ImageBackground 
@@ -79,7 +79,8 @@ const SignIn = () => {
                         value={userPassword}
                         onChangeText={setUserPassword}
                     />
-                    <TouchableOpacity style={styles.buttonStyle} onPress={handleSignIn}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => router.replace('/home')}>
+                    {/* <TouchableOpacity style={styles.buttonStyle} onPress={handleSignIn}> */}
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
