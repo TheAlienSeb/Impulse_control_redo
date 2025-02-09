@@ -32,7 +32,24 @@ router.post('/createUser', async (req, res) => {
             password: password,
             balance: 0,
             fullName: '',
-            biggestSpendingExpenses: []
+            biggestSpendingExpenses: [],
+            createdAt: new Date().toISOString(),
+            card: {
+                cardNumber: '',
+                cardHolder: '',
+                expirationDate: '',
+                cvv: ''
+            },
+            transactions: [],
+            income: 0,
+            phoneNumber: '',
+            address: {
+                street: '',
+                city: '',
+                state: '',
+                zipCode: ''
+            }
+            
         };
 
         const docRef = await db.collection('users').add(userInfo);
@@ -150,6 +167,33 @@ router.put('/updateBiggestSpendingExpenses', async (req, res) => {
         res.status(200).json({ success: true, success_msg: "Biggest spending expenses updated" });
     } catch (error) {
         console.error('Error updating biggest spending expenses:', error);
+        res.status(400).json({ success: false, error: error.message });
+    }
+});
+
+// New endpoint to update card details
+router.put('/updateCardDetails', async (req, res) => {
+    const { email, cardDetails } = req.body;
+
+    if (!email || !cardDetails) {
+        return res.status(400).json({ success: false, error: "Missing fields" });
+    }
+
+    try {
+        const userRef = db.collection('users').where('email', '==', email);
+        const snapshot = await userRef.get();
+
+        if (snapshot.empty) {
+            return res.status(400).json({ success: false, error: "User not found" });
+        }
+
+        snapshot.forEach(async (doc) => {
+            await doc.ref.update({ card: cardDetails });
+        });
+
+        res.status(200).json({ success: true, success_msg: "Card details updated" });
+    } catch (error) {
+        console.error('Error updating card details:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 });

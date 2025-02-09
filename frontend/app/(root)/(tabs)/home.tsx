@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
+
+// Import images using require syntax
+const backgroundImage = require('../../../assets/images/background.png');
+const logoImage = require('../../../assets/images/logo.png');
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -45,19 +49,32 @@ const Home = () => {
         }
     };
 
+    const handleCardRedirect = () => {
+        if (user && user.card && user.card.cardNumber) {
+            router.replace('/cardMenu');
+        } else {
+            router.replace('/cardWelcome');
+        }
+    };
+
     if (loading) {
         return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
     return (
         <ImageBackground 
-            source={require('../../../assets/images/background.png')} 
+            source={backgroundImage} 
             style={styles.background}
         >
+            <View style={styles.navBar}>
+                <TouchableOpacity onPress={handleSignOut} style={styles.navButton}>
+                    <Text style={styles.navButtonText}>Sign Out</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.logoContainer}>
-                    <ImageBackground 
-                        source={require('../../../assets/images/logo.png')} 
+                    <Image 
+                        source={logoImage} 
                         style={styles.logo}
                     />
                     <Text style={styles.text}>SmartSave</Text>
@@ -67,9 +84,8 @@ const Home = () => {
                     {user && (
                         <Text style={styles.userEmail}>Welcome, {user.email}!</Text>
                     )}
-                    {/* Sign Out Button */}
-                    <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
-                        <Text style={styles.buttonText}>Sign Out</Text>
+                    <TouchableOpacity onPress={handleCardRedirect} style={styles.cardButton}>
+                        <Text style={styles.buttonText}>Go to Card</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -82,6 +98,23 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
+    },
+    navBar: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    navButton: {
+        backgroundColor: 'red',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    navButtonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: '600',
     },
     scrollViewContent: {
         marginTop: 100,
@@ -120,8 +153,8 @@ const styles = StyleSheet.create({
         color: 'white',
         marginVertical: 10,
     },
-    signOutButton: {
-        backgroundColor: 'red', // Ensure the button is visible
+    cardButton: {
+        backgroundColor: '#0369A1',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 10,

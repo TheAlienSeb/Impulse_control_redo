@@ -1,3 +1,9 @@
 {
-  "urlRandomness": "kOI75CA"
-}
+    "hostType": "lan",
+    "lanType": "ip",
+    "dev": true,
+    "minify": false,
+    "urlRandomness": "kOI75CA",
+    "https": false,
+    "scheme": null
+  }

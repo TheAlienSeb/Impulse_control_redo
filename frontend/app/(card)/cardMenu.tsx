@@ -1,5 +1,5 @@
 import colors from "../styles/globalVar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -8,13 +8,86 @@ import {
     Image,
     ScrollView,
     Alert,
+    ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CardMenuTab: React.FC = () => {
     const router = useRouter();
+    const [user, setUser] = useState(null);
+    const [showAllTransactions, setShowAllTransactions] = useState(false);
+
+    useEffect(() => {
+        const loadUser = async () => {
+            try {
+                const storedUser = await AsyncStorage.getItem("user");
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+                } else {
+                    router.replace("/(auth)/sign-in");
+                }
+            } catch (error) {
+                console.error("Error loading user:", error);
+            }
+        };
+
+        loadUser();
+    }, []);
+
+    const handleAddMoney = () => {
+        Alert.alert(
+            "Add Money",
+            "Are you sure you want to add money?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                {
+                    text: "OK",
+                    onPress: () => console.log("Money added"),
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+
+    const handleCardDetails = () => {
+        console.log("Card details clicked");
+    };
+
+    const handleLockCard = () => {
+        router.replace("/question2");
+    };
+
+    const handleSeeAllTransactions = () => {
+        setShowAllTransactions(true);
+    };
+
+    if (!user) {
+        return (
+            <ActivityIndicator
+                size="large"
+                color="#0369A1"
+                style={{ flex: 1, justifyContent: "center" }}
+            />
+        );
+    }
+
+    const balanceText = `$${user.balance.toFixed(2)}`;
+    const availabilityText =
+        user.balance > 20
+            ? "Available to spend."
+            : `Unavailable to spend ($${user.balance.toFixed(2)})`;
+    const cardNumberLast4 = user.card.cardNumber.slice(-4);
+    const transactionsToShow = showAllTransactions
+        ? user.transactions
+        : user.transactions.slice(0, 3);
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -22,35 +95,20 @@ const CardMenuTab: React.FC = () => {
                 showsVerticalScrollIndicator={false} // Hide vertical scrollbar
                 showsHorizontalScrollIndicator={false} // Hide horizontal scrollbar
             >
-                <Text style={styles.header}>$250.00</Text>
-                <Text style={styles.info}>Available to spend.</Text>
+                <Text style={styles.header}>{balanceText}</Text>
+                <Text style={styles.info}>{availabilityText}</Text>
                 <Image
                     source={require("../../assets/images/cardbg.jpg")}
                     style={styles.image}
                 ></Image>
+                <Text style={styles.header1}>
+                    Primary card ****{cardNumberLast4}
+                </Text>
                 <View style={styles.row}>
                     <View style={styles.col}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => {
-                                console.log("Add money clicked");
-                                Alert.alert(
-                                    "Add Money",
-                                    "Are you sure you want to add money?",
-                                    [
-                                        {
-                                            text: "Cancel",
-                                            style: "cancel",
-                                        },
-                                        {
-                                            text: "OK",
-                                            onPress: () =>
-                                                console.log("Money added"),
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                );
-                            }}
+                            onPress={handleAddMoney}
                         >
                             <Text style={styles.buttonText}>
                                 <Icon
@@ -66,25 +124,7 @@ const CardMenuTab: React.FC = () => {
                     <View style={styles.col}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => {
-                                console.log("Add money clicked");
-                                Alert.alert(
-                                    "Add Money",
-                                    "Are you sure you want to add money?",
-                                    [
-                                        {
-                                            text: "Cancel",
-                                            style: "cancel",
-                                        },
-                                        {
-                                            text: "OK",
-                                            onPress: () =>
-                                                console.log("Money added"),
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                );
-                            }}
+                            onPress={handleCardDetails}
                         >
                             <Text style={styles.buttonText}>
                                 <Icon
@@ -100,9 +140,7 @@ const CardMenuTab: React.FC = () => {
                     <View style={styles.col}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => {
-                                router.replace("/question2");
-                            }}
+                            onPress={handleLockCard}
                         >
                             <Text style={styles.buttonText}>
                                 <Icon
@@ -118,51 +156,36 @@ const CardMenuTab: React.FC = () => {
                 </View>
                 <View style={styles.colLeft}>
                     <Text style={styles.header3}>Latest Transactions</Text>
-                    <View style={(styles.row, styles.tab)}>
-                        <Icon
-                            name="money"
-                            size={25}
-                            color={colors.textColor}
-                            style={styles.imageIcon}
-                        />
-                        <View style={styles.colLeft}>
-                            <Text style={styles.infoWhite}>Transfer</Text>
-                            <Text style={styles.info}>
-                                To Haasil Pujara **03
-                            </Text>
-                        </View>
-                        <Text style={styles.infoWhite}>$3.50</Text>
-                    </View>
-                    <View style={(styles.row, styles.tab)}>
-                        <Icon
-                            name="money"
-                            size={25}
-                            color={colors.textColor}
-                            style={styles.imageIcon}
-                        />
-                        <View style={styles.colLeft}>
-                            <Text style={styles.infoWhite}>Transfer</Text>
-                            <Text style={styles.info}>
-                                To Haasil Pujara **03
-                            </Text>
-                        </View>
-                        <Text style={styles.infoWhite}>$3.50</Text>
-                    </View>
-                    <View style={(styles.row, styles.tab)}>
-                        <Icon
-                            name="money"
-                            size={25}
-                            color={colors.textColor}
-                            style={styles.imageIcon}
-                        />
-                        <View style={styles.colLeft}>
-                            <Text style={styles.infoWhite}>Transfer</Text>
-                            <Text style={styles.info}>
-                                To Haasil Pujara **03
-                            </Text>
-                        </View>
-                        <Text style={styles.infoWhite}>$3.50</Text>
-                    </View>
+                    {user.transactions.length === 0 ? (
+                        <Text style={styles.info}>No Transactions Yet...</Text>
+                    ) : (
+                        transactionsToShow.map((transaction, index) => (
+                            <View key={index} style={[styles.row, styles.tab]}>
+                                <Icon
+                                    name="money"
+                                    size={25}
+                                    color={colors.textColor}
+                                    style={styles.imageIcon}
+                                />
+                                <View style={styles.colLeft}>
+                                    <Text style={styles.infoWhite}>
+                                        {transaction.type}
+                                    </Text>
+                                    <Text style={styles.info}>
+                                        {transaction.description}
+                                    </Text>
+                                </View>
+                                <Text style={styles.infoWhite}>
+                                    ${transaction.amount.toFixed(2)}
+                                </Text>
+                            </View>
+                        ))
+                    )}
+                    {user.transactions.length > 3 && !showAllTransactions && (
+                        <TouchableOpacity onPress={handleSeeAllTransactions}>
+                            <Text style={styles.seeAllText}>See All</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -183,6 +206,13 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         marginBottom: 20,
         color: colors.textColor,
+    },
+    header1: {
+        fontSize: colors.h1,
+        fontWeight: "700",
+        marginBottom: 20,
+        color: colors.textColor,
+        textAlign: "center",
     },
     header3: {
         fontSize: colors.h3,
@@ -270,6 +300,12 @@ const styles = StyleSheet.create({
         width: 50,
         borderRadius: 50,
         marginTop: "10%",
+    },
+    seeAllText: {
+        color: colors.primaryColor,
+        fontSize: colors.text,
+        textAlign: "center",
+        marginTop: 10,
     },
 });
 
