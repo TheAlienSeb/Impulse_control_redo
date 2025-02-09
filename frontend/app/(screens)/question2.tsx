@@ -1,6 +1,6 @@
 import colors from "../styles/globalVar";
 import React, { useState } from "react"; // Import useState
-import { router } from "expo-router";
+// import { router } from "expo-router";
 
 import {
     View,
@@ -187,8 +187,8 @@ const globalStyles = `
     }
 `;
 
-const styleSheet = document.createElement("style");
-styleSheet.innerText = globalStyles;
-document.head.appendChild(styleSheet);
+// const styleSheet = document.createElement("style");
+// styleSheet.innerText = globalStyles;
+// document.head.appendChild(styleSheet);
 
 export default Question2;

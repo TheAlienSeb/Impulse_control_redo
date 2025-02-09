@@ -1,16 +1,20 @@
 import { Text, View, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from "expo-router";
 
+// Importing images using import statement
+import confettiBackground from '../../assets/images/confetti_background4.png';
+import logo from '../../assets/images/logo.png';
+
 const accountCreated = () => {
     return (
         <ImageBackground
-            source={require('../../assets/images/confetti_background4.png')} 
+            source={confettiBackground} 
             style={styles.background}
             resizeMode='cover'
         >
             <View style={styles.logoContainer}>
                 <ImageBackground 
-                    source={require('../../assets/images/logo.png')} 
+                    source={logo} 
                     style={styles.logo}
                 />
                 <Text style={styles.text}>You're all set!</Text>

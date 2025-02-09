@@ -3,6 +3,9 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 
+// Import images
+import cardBgImage from "../../assets/images/cardbg.jpg";
+
 const CardMenuTab: React.FC = () => {
     const router = useRouter();
     return (
@@ -11,9 +14,9 @@ const CardMenuTab: React.FC = () => {
                 <Text style={styles.header}>$250.00</Text>
                 <Text style={styles.info}>Available to spend.</Text>
                 <Image
-                    source={require("../../assets/images/cardbg.jpg")}
+                    source={cardBgImage}
                     style={styles.image}
-                ></Image>
+                />
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {

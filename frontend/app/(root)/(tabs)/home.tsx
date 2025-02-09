@@ -3,6 +3,10 @@ import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 
+// Import images using import syntax
+import backgroundImage from '../../../assets/images/background.png';
+import logoImage from '../../../assets/images/logo.png';
+
 const Home = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -44,13 +48,13 @@ const Home = () => {
 
     return (
         <ImageBackground 
-            source={require('../../../assets/images/background.png')} 
+            source={backgroundImage} 
             style={styles.background}
         >
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.logoContainer}>
                     <ImageBackground 
-                        source={require('../../../assets/images/logo.png')} 
+                        source={logoImage} 
                         style={styles.logo}
                     />
                     <Text style={styles.text}>SmartSave</Text>
