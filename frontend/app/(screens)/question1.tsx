@@ -31,7 +31,7 @@ const Question1: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("question2");
+                        router.replace("/(screens)/question2");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
