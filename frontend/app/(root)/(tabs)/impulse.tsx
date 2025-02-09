@@ -14,9 +14,7 @@ const ImpulseTab: React.FC = () => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <Text style={styles.header}>Understanding Impulse Scores</Text>
                 <Text style={styles.info}>
-                    Impulse scores calculate the user's level of susceptibility
-                    to spending at a certain time. It is calculated based on the
-                    user's spending habits and the time of day.
+                    High Scores > Low Scores
                 </Text>
                 <ProgressBar score={615} />
                 <Text style={styles.header1}>615</Text>
