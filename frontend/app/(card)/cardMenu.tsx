@@ -23,25 +23,24 @@ const CardMenuTab: React.FC = () => {
     const [showAllTransactions, setShowAllTransactions] = useState(false);
     const [animationHeight] = useState(new Animated.Value(0));
 
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const storedUser = await AsyncStorage.getItem("user");
-                if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-                    console.log('Loaded user:', parsedUser); // Debug log
-                    setUser(parsedUser);
-                } 
-                else {
-                    router.replace("/(auth)/sign-in");
-                }
-            } catch (error) {
-                console.error("Error loading user:", error);
+    const loadUser = async () => {
+        try {
+            const storedUser = await AsyncStorage.getItem("user");
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                console.log('Loaded user:', parsedUser); // Debug log
+                setUser(parsedUser);
+            } else {
+                router.replace("/(auth)/sign-in");
             }
-        };
+        } catch (error) {
+            console.error("Error loading user:", error);
+        }
+    };
 
+    useEffect(() => {
         loadUser();
-    }, []);
+    }, []); // Empty dependency array to run only once on mount
 
     const handleAddMoney = async () => {
         Alert.alert(

@@ -42,18 +42,24 @@ const Home = () => {
                     setUser(parsedUser);
 
                     // Check if fullName is empty, biggestSpendingExpenses is an empty array, or budget is 0
-                    if (
-                        !parsedUser.fullName ||
-                        parsedUser.biggestSpendingExpenses.length === 0 ||
-                        parsedUser.balance === 0
+                    if (!parsedUser.fullName) {
+                        console.log("Redirecting to question1");
+                        router.replace("/question1");
+                        return;
+                    } else if (
+                        parsedUser.biggestSpendingExpenses.length === 0
                     ) {
-                        router.replace("../../(screens)/finance");
+                        console.log("Redirecting to question2");
+                        router.replace("/question2");
+                        return;
+                    } else if (parsedUser.balance === 0) {
+                        console.log("Redirecting to question3");
+                        router.replace("/question3");
                         return;
                     }
+                } else {
+                    router.replace("/(auth)/sign-in");
                 }
-                // else {
-                //     router.replace('/(auth)/sign-in');
-                // }
             } catch (error) {
                 console.error("Error loading user:", error);
             }
@@ -117,9 +123,7 @@ const Home = () => {
             <SafeAreaView style={styles.navBar}>
                 <View style={styles.navContent}>
                     <TouchableOpacity
-                        onPress={() => {
-                            /* Add your profile navigation logic here */
-                        }}
+                        onPress={() => router.replace("/profile")}
                         style={styles.profileButton}
                     >
                         <Image
