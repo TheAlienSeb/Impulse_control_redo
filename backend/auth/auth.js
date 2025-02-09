@@ -225,4 +225,37 @@ router.put('/updateTransactions', async (req, res) => {
     }
 });
 
+// New endpoint to update balance
+router.put('/updateBalance', async (req, res) => {
+    const { email, balance } = req.body;
+
+    console.log('Received request to update balance:', { email, balance });
+
+    if (!email || balance === undefined) {
+        console.log('Missing fields');
+        return res.status(400).json({ success: false, error: "Missing fields" });
+    }
+
+    try {
+        const userRef = db.collection('users').where('email', '==', email);
+        const snapshot = await userRef.get();
+
+        if (snapshot.empty) {
+            console.log('User not found');
+            return res.status(400).json({ success: false, error: "User not found" });
+        }
+
+        snapshot.forEach(async (doc) => {
+            console.log('Updating balance for user:', doc.id);
+            await doc.ref.update({ balance });
+        });
+
+        console.log('Balance updated successfully');
+        res.status(200).json({ success: true, success_msg: "Balance updated" });
+    } catch (error) {
+        console.error('Error updating balance:', error);
+        res.status(400).json({ success: false, error: error.message });
+    }
+});
+
 module.exports = router;
