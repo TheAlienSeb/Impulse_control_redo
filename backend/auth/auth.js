@@ -39,7 +39,17 @@ router.post('/createUser', async (req, res) => {
                 cardHolder: '',
                 expirationDate: '',
                 cvv: ''
+            },
+            transactions: [],
+            income: 0,
+            phoneNumber: '',
+            address: {
+                street: '',
+                city: '',
+                state: '',
+                zipCode: ''
             }
+            
         };
 
         const docRef = await db.collection('users').add(userInfo);
