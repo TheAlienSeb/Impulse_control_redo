@@ -1,11 +1,11 @@
 import { TouchableOpacity } from 'react-native';
 import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Alert } from 'react-native';
-import { addWhitelistedNativeProps } from 'react-native-reanimated/lib/typescript/ConfigHelper';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Link, Redirect } from "expo-router";
 import { router } from "expo-router";
 import React, { useState } from 'react';
 import axios from "axios";
+import backgroundImage from '../../assets/images/background.png';
+import logoImage from '../../assets/images/logo.png';
+
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -34,18 +34,19 @@ const SignUp = () => {
     };
     
     return (
-        <ImageBackground 
-            source={require('../../assets/images/background.png')} 
-            style={styles.background}
-        >
+            <ImageBackground 
+                source={backgroundImage} 
+                style={styles.background}
+            >
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <View style={styles.logoContainer}>
+                    <View style={styles.logoContainer}>
                     <ImageBackground 
-                        source={require('../../assets/images/logo.png')} 
+                        source={logoImage} 
                         style={styles.logo}
                     />
                     <Text style={styles.text}>SmartSave</Text>
                 </View>
+
                 <View style={styles.inputContainer}>
                     <Text style={styles.smallText}>Username</Text>
                     <TextInput 

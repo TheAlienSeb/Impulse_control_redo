@@ -22,7 +22,7 @@ const AccountCreated = () => {
         >
             <View style={styles.logoContainer}>
                 <ImageBackground 
-                    source={require('../../assets/images/logo.png')} 
+                    source={logo} 
                     style={styles.logo}
                 />
                 {loading ? (

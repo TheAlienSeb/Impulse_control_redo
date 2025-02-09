@@ -86,7 +86,7 @@ const CardMenuTab: React.FC = () => {
                 <Text style={styles.header}>{balanceText}</Text>
                 <Text style={styles.info}>{availabilityText}</Text>
                 <Image
-                    source={require("../../assets/images/cardbg.jpg")}
+                    source={cardBgImage}
                     style={styles.image}
                 ></Image>
                 <Text style={styles.header1}>Primary card ****{cardNumberLast4}</Text>

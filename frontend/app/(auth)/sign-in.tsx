@@ -1,31 +1,34 @@
-import { TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { TouchableOpacity, Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Alert } from 'react-native';
 import { router } from "expo-router";
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Import images
+import backgroundImage from "../../assets/images/background.png";
+import logoImage from '../../assets/images/logo.png';
 
 const SignIn = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    //const [loading, setLoading] = useState(true); // Tracks if session is being checked
-    //setLoading(false);
-    // useEffect(() => {
-    //     const checkUserSession = async () => {
-    //         try {
-    //             const storedUser = await AsyncStorage.getItem('user');
-    //             if (storedUser) {
-    //                 router.replace('/home'); // Redirect if user is already signed in
-    //                 return;
-    //             }
-    //         } catch (error) {
-    //             console.error('Error checking user session:', error);
-    //         }
-    //         setLoading(false); // Stop loading once check is complete
-    //     };
+    const [loading, setLoading] = useState(true); // Tracks if session is being checked
 
-    //     checkUserSession();
-    // }, []);
+    useEffect(() => {
+        const checkUserSession = async () => {
+            try {
+                const storedUser = await AsyncStorage.getItem('user');
+                if (storedUser) {
+                    router.replace('/home'); // Redirect if user is already signed in
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking user session:', error);
+            }
+            setLoading(false); // Stop loading once check is complete
+        };
+
+        checkUserSession();
+    }, []);
 
     const handleSignIn = async () => {
         try {
@@ -33,7 +36,6 @@ const SignIn = () => {
                 email: userEmail,
                 password: userPassword
             });
-            
 
             const userData = response.data.user;
             await AsyncStorage.setItem('user', JSON.stringify(userData)); // Store session
@@ -46,19 +48,15 @@ const SignIn = () => {
         }
     };
 
-    // if (loading) {
-    //     return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
-    // }
-
     return (
         <ImageBackground 
-            source={require('../../assets/images/background.png')} 
+            source={backgroundImage} 
             style={styles.background}
         >
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.logoContainer}>
                     <ImageBackground 
-                        source={require('../../assets/images/logo.png')} 
+                        source={logoImage} 
                         style={styles.logo}
                     />
                     <Text style={styles.text}>SmartSave</Text>
