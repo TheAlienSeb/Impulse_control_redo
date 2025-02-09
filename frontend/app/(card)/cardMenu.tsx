@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -31,7 +32,23 @@ const CardMenuTab: React.FC = () => {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                router.replace("/question2");
+                                console.log("Add money clicked");
+                                Alert.alert(
+                                    "Add Money",
+                                    "Are you sure you want to add money?",
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            style: "cancel",
+                                        },
+                                        {
+                                            text: "OK",
+                                            onPress: () =>
+                                                console.log("Money added"),
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                );
                             }}
                         >
                             <Text style={styles.buttonText}>+</Text>
@@ -42,7 +59,23 @@ const CardMenuTab: React.FC = () => {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                router.replace("/question2");
+                                console.log("Add money clicked");
+                                Alert.alert(
+                                    "Add Money",
+                                    "Are you sure you want to add money?",
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            style: "cancel",
+                                        },
+                                        {
+                                            text: "OK",
+                                            onPress: () =>
+                                                console.log("Money added"),
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                );
                             }}
                         >
                             <Text style={styles.buttonText}>🡒</Text>
@@ -82,6 +115,10 @@ const CardMenuTab: React.FC = () => {
                         <Text style={styles.infoWhite}>$3.50</Text>
                     </View>
                     <View style={(styles.row, styles.tab)}>
+                        <Image
+                            source={require("../../assets/images/placeholder.png")}
+                            style={styles.imageIcon}
+                        ></Image>
                         <View style={styles.colLeft}>
                             <Text style={styles.infoWhite}>Transfer</Text>
                             <Text style={styles.info}>
@@ -168,8 +205,9 @@ const styles = StyleSheet.create({
     tab: {
         backgroundColor: colors.secondaryColor,
         padding: 10,
-        marginVertical: 8,
-        width: 400,
+        paddingHorizontal: 50,
+        marginVertical: 5,
+        width: "100%",
         flexDirection: "row",
         justifyContent: "space-around",
         borderRadius: 10,
@@ -190,6 +228,12 @@ const styles = StyleSheet.create({
         height: 200,
         width: 300,
         borderRadius: 20,
+    },
+    imageIcon: {
+        height: 50,
+        width: 50,
+        borderRadius: 50,
+        marginTop: "4%",
     },
 });
 
