@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const DATA = [
     {
@@ -39,10 +40,11 @@ const DATA = [
     },
 ];
 
-type ItemProps = { title: string; backgroundColor: string };
+type ItemProps = { title: string; backgroundColor: string; fontId: string };
 
-const Item = ({ title, backgroundColor }: ItemProps) => (
+const Item = ({ title, backgroundColor, fontId }: ItemProps) => (
     <View style={[styles.item, { backgroundColor }]}>
+        <Icon name="{fontId}" size={30} color={colors.textColor} />
         <Text style={styles.title}>{title}</Text>
     </View>
 );
@@ -138,6 +140,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingLeft: 20,
         paddingRight: 20,
+        marginTop: 20,
     },
     buttonText: {
         color: colors.textColor,
@@ -157,14 +160,12 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         marginHorizontal: 8,
         borderRadius: 10,
-        width: 200,
     },
     itemContainer: {
         display: "flex",
-        width: "100%",
+        flexDirection: "row",
         height: "100%",
         flexWrap: "wrap",
-        flexDirection: "row",
         justifyContent: "space-between",
     },
 });
