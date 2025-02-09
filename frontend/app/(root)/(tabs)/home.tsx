@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
+import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // Import MaterialCommunityIcons
 import { BarChart } from 'react-native-chart-kit'; // Import BarChart
-import { Dimensions } from 'react-native';
 
 // Import images using require syntax
 const backgroundImage = require('../../../assets/images/background.png');
@@ -29,14 +28,22 @@ const Home = () => {
                     setUser(parsedUser);
 
                     // Check if fullName is empty, biggestSpendingExpenses is an empty array, or budget is 0
-                    if (!parsedUser.fullName || parsedUser.biggestSpendingExpenses.length === 0 || parsedUser.balance === 0) {
-                        router.replace('../../(screens)/finance');
+                    if (!parsedUser.fullName) {
+                        console.log('Redirecting to question1');
+                        router.replace('/question1');
+                        return;
+                    } else if (parsedUser.biggestSpendingExpenses.length === 0) {
+                        console.log('Redirecting to question2');
+                        router.replace('/question2');
+                        return;
+                    } else if (parsedUser.balance === 0) {
+                        console.log('Redirecting to question3');
+                        router.replace('/question3');
                         return;
                     }
-                 } 
-                // else {
-                //     router.replace('/(auth)/sign-in');
-                // }
+                } else {
+                    router.replace('/(auth)/sign-in');
+                }
             } catch (error) {
                 console.error('Error loading user:', error);
             }
@@ -105,7 +112,7 @@ const Home = () => {
                 </View>
                 <View style={styles.roundedContainer}>
                     <MaterialCommunityIcons name="credit-card" size={20} color="black" style={styles.creditCardIcon} />
-                    <Text style={styles.roundedContainerText}>Personal - 6693 </Text> /* Add your card number here */
+                    <Text style={styles.roundedContainerText}>Personal - 6693 </Text> {/* Add your card number here */}
                 </View>
                 <View style={styles.textContainer}>
                         <Text style={styles.text}>$103</Text>
