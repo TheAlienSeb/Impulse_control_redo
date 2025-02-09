@@ -2,6 +2,7 @@ import { TouchableOpacity } from 'react-native';
 import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
 const SignUp = () => {
     return (
         <ImageBackground 
