@@ -1,5 +1,7 @@
 import colors from "../styles/globalVar";
 import React, { useState } from "react"; // Import useState
+import { router } from "expo-router";
+
 import {
     View,
     Text,
@@ -92,7 +94,7 @@ const Question2: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("/cardWelcome");
+                        router.replace("../(root)/accountCreated");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
         color: colors.textColor,
     },
     title: {
-        fontSize: colors.text,
+        fontSize: 18, // Set a numeric value for fontSize
         marginBottom: 10,
         color: colors.textColor,
         display: "flex",
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: colors.textColor,
-        fontSize: colors.text,
+        fontSize: 18, // Set a numeric value for fontSize
     },
     spaceBetweenContainer: {
         justifyContent: "space-around",
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     item: {
         backgroundColor: colors.secondaryColor,
         padding: 20,
-        fontWeight: 500,
+        fontWeight: "500",
         marginVertical: 8,
         marginHorizontal: 8,
         borderRadius: 10,

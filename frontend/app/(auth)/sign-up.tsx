@@ -1,11 +1,38 @@
 import { TouchableOpacity } from 'react-native';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Button } from 'react-native';
+import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Alert } from 'react-native';
 import { addWhitelistedNativeProps } from 'react-native-reanimated/lib/typescript/ConfigHelper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Link, Redirect } from "expo-router";
-import {router} from "expo-router"
+import { router } from "expo-router";
+import React, { useState } from 'react';
+import axios from "axios";
 
 const SignUp = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSignUp = async () => {
+        try {
+            console.log('Attempting to sign up with:', { email: username, password });
+            const response = await axios.post('http://localhost:5000/api/createUser', {
+                email: username, // Make sure your field names match the backend
+                password
+            });
+            console.log('Response received:', response.data);
+    
+            // Assume the backend returns a success message.
+            Alert.alert('Success', 'Account created successfully! Please sign in.');
+            
+            // Redirect to the sign-in page (do not automatically store user data)
+            setTimeout(() => {
+                router.replace('/(auth)/sign-in'); // Use your appropriate route path
+            }, 2000); // Optional delay for user to read the success message
+        } catch (error) {
+            console.error('Error signing up:', error);
+            Alert.alert('Error', error.response?.data?.message || 'Failed to sign up.');
+        }
+    };
+    
     return (
         <ImageBackground 
             source={require('../../assets/images/background.png')} 
@@ -25,15 +52,19 @@ const SignUp = () => {
                         style={styles.input} 
                         placeholder="Enter your email address..." 
                         placeholderTextColor="white"
+                        value={username}
+                        onChangeText={setUsername} // Capture user input
                     />
                     <Text style={styles.smallText}>Password</Text>
                     <TextInput 
                         style={styles.input} 
                         placeholder="Enter your password..." 
                         placeholderTextColor="white"
-                        
+                        secureTextEntry
+                        value={password}
+                        onChangeText={setPassword} // Capture user input
                     />
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => { /* Handle sign up */ }}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={handleSignUp}>
                         <Text style={styles.buttonText}>Create Account</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
