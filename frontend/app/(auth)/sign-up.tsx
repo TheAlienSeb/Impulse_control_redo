@@ -33,6 +33,7 @@ const SignUp = () => {
                     <TouchableOpacity style={styles.buttonStyle} onPress={() => { /* Handle sign up */ }}>
                         <Text style={styles.buttonText}>Create Account</Text>
                     </TouchableOpacity>
+                    <Text style={styles.alreadyHaveAccount}>I already have an account</Text>
                 </View>
             </ScrollView>
         </ImageBackground>
@@ -70,6 +71,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 17,
         fontWeight: '600',
+        alignSelf: 'flex-start',
+        marginLeft: '1%',
     },
     inputContainer: {
         width: '80%',
@@ -98,7 +101,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 17,
         fontWeight: '600',
-    }
+    },
+    alreadyHaveAccount: {
+        color: '#0369A1'
+    },
 });
 
 export default SignUp;
