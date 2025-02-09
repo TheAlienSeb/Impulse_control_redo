@@ -1,6 +1,9 @@
 import { TouchableOpacity } from 'react-native';
 import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Button } from 'react-native';
+import { addWhitelistedNativeProps } from 'react-native-reanimated/lib/typescript/ConfigHelper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Link, Redirect } from "expo-router";
+import {router} from "expo-router"
 
 
 const SignUp = () => {
@@ -22,19 +25,25 @@ const SignUp = () => {
                     <TextInput 
                         style={styles.input} 
                         placeholder="Enter your email address..." 
-                        placeholderTextColor="#aaa"
+                        placeholderTextColor="white"
                     />
                     <Text style={styles.smallText}>Password</Text>
                     <TextInput 
                         style={styles.input} 
                         placeholder="Enter your password..." 
-                        placeholderTextColor="#aaa"
-                        secureTextEntry
+                        placeholderTextColor="white"
+                        
                     />
                     <TouchableOpacity style={styles.buttonStyle} onPress={() => { /* Handle sign up */ }}>
                         <Text style={styles.buttonText}>Create Account</Text>
                     </TouchableOpacity>
-                    <Text style={styles.alreadyHaveAccount}>I already have an account</Text>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            router.replace('/(auth)/sign-in')
+                        }}
+                    >
+                        <Text style={styles.alreadyHaveAccount}>Already have an account? Sign in</Text> 
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </ImageBackground>
@@ -87,6 +96,7 @@ const styles = StyleSheet.create({
         borderRadius: 9999,
         paddingHorizontal: 10,
         marginVertical: 10,
+        color: 'white',
     },
     buttonStyle: {
         width: '80%',
