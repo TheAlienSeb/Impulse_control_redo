@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color: colors.textColor,
         textAlign: "center",
+        marginTop: "10%",
     },
     scrollViewContent: {
         marginTop: "15%",
