@@ -33,7 +33,7 @@ const SignIn = () => {
                         placeholderTextColor="white"
                         
                     />
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => { /* Handle sign up */ }}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => { router.replace('/finance') }}>
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
@@ -114,6 +114,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '600',
     },
+    forgotPasswordText: {
+        color: '#0369A1'
+    }
 });
 
 export default SignIn;
