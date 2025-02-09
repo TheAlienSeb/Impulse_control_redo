@@ -20,7 +20,7 @@ const FinanceTab: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("/screens/question1");
+                        router.replace("/(screens)/question1");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
