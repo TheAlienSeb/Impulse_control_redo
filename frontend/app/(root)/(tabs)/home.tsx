@@ -18,7 +18,14 @@ const Home = () => {
                 const storedUser = await AsyncStorage.getItem('user');
                 console.log('Stored user:', storedUser); // Debug log
                 if (storedUser) {
-                    setUser(JSON.parse(storedUser));
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+
+                    // Check if fullName is empty or biggestSpendingExpenses is an empty array
+                    if (!parsedUser.fullName || parsedUser.biggestSpendingExpenses.length === 0) {
+                        router.replace('../../(screens)/finance');
+                        return;
+                    }
                 } else {
                     router.replace('/(auth)/sign-in');
                 }
@@ -42,6 +49,14 @@ const Home = () => {
         }
     };
 
+    const handleCardRedirect = () => {
+        if (user && user.card && user.card.cardNumber) {
+            router.replace('/cardMenu');
+        } else {
+            router.replace('/cardWelcome');
+        }
+    };
+
     if (loading) {
         return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
     }
@@ -51,6 +66,11 @@ const Home = () => {
             source={backgroundImage} 
             style={styles.background}
         >
+            <View style={styles.navBar}>
+                <TouchableOpacity onPress={handleSignOut} style={styles.navButton}>
+                    <Text style={styles.navButtonText}>Sign Out</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.logoContainer}>
                     <ImageBackground 
@@ -64,9 +84,8 @@ const Home = () => {
                     {user && (
                         <Text style={styles.userEmail}>Welcome, {user.email}!</Text>
                     )}
-                    {/* Sign Out Button */}
-                    <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
-                        <Text style={styles.buttonText}>Sign Out</Text>
+                    <TouchableOpacity onPress={handleCardRedirect} style={styles.cardButton}>
+                        <Text style={styles.buttonText}>Go to Card</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -79,6 +98,23 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
+    },
+    navBar: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    navButton: {
+        backgroundColor: 'red',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    navButtonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: '600',
     },
     scrollViewContent: {
         marginTop: 100,
@@ -117,8 +153,8 @@ const styles = StyleSheet.create({
         color: 'white',
         marginVertical: 10,
     },
-    signOutButton: {
-        backgroundColor: 'red', // Ensure the button is visible
+    cardButton: {
+        backgroundColor: '#0369A1',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 10,

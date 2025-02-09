@@ -1,17 +1,18 @@
 import colors from "../styles/globalVar";
-import React, { useState } from "react"; // Import useState
-// import { router } from "expo-router";
-
+import React, { useState } from "react";
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     FlatList,
+    Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DATA = [
     {
@@ -65,6 +66,34 @@ const Question2: React.FC = () => {
         });
     };
 
+    const handleUpdateBiggestSpendingExpenses = async () => {
+        try {
+            const storedUser = await AsyncStorage.getItem("user");
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                const response = await axios.put("http://localhost:5000/api/updateBiggestSpendingExpenses", {
+                    email: parsedUser.email,
+                    biggestSpendingExpenses: selectedItems,
+                });
+
+                if (response.data.success) {
+                    // Update the user data in AsyncStorage
+                    parsedUser.biggestSpendingExpenses = selectedItems;
+                    await AsyncStorage.setItem("user", JSON.stringify(parsedUser));
+                    Alert.alert("Success", "Biggest spending expenses updated successfully!");
+                    router.replace("../(root)/accountCreated");
+                } else {
+                    Alert.alert("Error", response.data.error || "Something went wrong. Please try again.");
+                }
+            } else {
+                router.replace("/(auth)/sign-in");
+            }
+        } catch (error) {
+            console.error("Error updating biggest spending expenses:", error);
+            Alert.alert("Error", error.response?.data?.message || "Failed to update biggest spending expenses.");
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
@@ -93,9 +122,7 @@ const Question2: React.FC = () => {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {
-                        router.replace("/home");
-                    }}
+                    onPress={handleUpdateBiggestSpendingExpenses}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
                 </TouchableOpacity>

@@ -1,17 +1,49 @@
 import colors from "../styles/globalVar";
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     TextInput,
+    Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Question1: React.FC = () => {
-    const [number, onChangeNumber] = React.useState("");
+    const [fullName, setFullName] = useState("");
     const router = useRouter();
+
+    const handleUpdateFullName = async () => {
+        try {
+            const storedUser = await AsyncStorage.getItem("user");
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                const response = await axios.put("http://localhost:5000/api/updateFullName", {
+                    email: parsedUser.email,
+                    fullName: fullName,
+                });
+
+                if (response.data.success) {
+                    // Update the user data in AsyncStorage
+                    parsedUser.fullName = fullName;
+                    await AsyncStorage.setItem("user", JSON.stringify(parsedUser));
+                    Alert.alert("Success", "Full name updated successfully!");
+                    router.replace("/question2");
+                } else {
+                    Alert.alert("Error", response.data.error || "Something went wrong. Please try again.");
+                }
+            } else {
+                router.replace("/(auth)/sign-in");
+            }
+        } catch (error) {
+            console.error("Error updating full name:", error);
+            Alert.alert("Error", error.response?.data?.message || "Failed to update full name.");
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
@@ -19,10 +51,10 @@ const Question1: React.FC = () => {
                 <Text style={styles.header}>What is your full name?</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeNumber}
-                    value={number}
+                    onChangeText={setFullName}
+                    value={fullName}
                     placeholder="Enter your name"
-                    keyboardType="numeric"
+                    keyboardType="default"
                 />
                 <Text style={styles.info}>
                     For security and regulatory purposes, please enter name
@@ -30,9 +62,7 @@ const Question1: React.FC = () => {
                 </Text>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {
-                        router.replace("/question2");
-                    }}
+                    onPress={handleUpdateFullName}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
                 </TouchableOpacity>

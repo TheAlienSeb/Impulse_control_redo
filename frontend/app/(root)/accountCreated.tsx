@@ -1,14 +1,22 @@
-import { Text, View, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { router } from "expo-router";
+import React, { useEffect, useState } from 'react';
+import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useRouter } from "expo-router";
 
-// Importing images using import statement
-import confettiBackground from '../../assets/images/confetti_background4.png';
-import logo from '../../assets/images/logo.png';
+const AccountCreated = () => {
+    const router = useRouter();
+    const [loading, setLoading] = useState(true);
 
-const accountCreated = () => {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 3000); // 3 seconds timeout
+
+        return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }, []);
+
     return (
         <ImageBackground
-            source={confettiBackground} 
+            source={require('../../assets/images/confetti_background4.png')}
             style={styles.background}
             resizeMode='cover'
         >
@@ -17,17 +25,23 @@ const accountCreated = () => {
                     source={logo} 
                     style={styles.logo}
                 />
-                <Text style={styles.text}>You're all set!</Text>
-                <TouchableOpacity 
-                    onPress={() => router.replace('/(auth)/sign-up')}
-                    style={styles.buttonStyle}
-                >
-                    <Text style={styles.buttonText}>See Dashboard</Text> 
-                </TouchableOpacity>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#0369A1" />
+                ) : (
+                    <>
+                        <Text style={styles.text}>You're all set!</Text>
+                        <TouchableOpacity 
+                            onPress={() => router.replace('/(tabs)/home')}
+                            style={styles.buttonStyle}
+                        >
+                            <Text style={styles.buttonText}>See Dashboard</Text> 
+                        </TouchableOpacity>
+                    </>
+                )}
             </View>
         </ImageBackground>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     background: {
@@ -49,6 +63,9 @@ const styles = StyleSheet.create({
         color: 'white', 
         fontSize: 50,
         fontWeight: '600',
+        textShadowColor: 'black',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 10,
     },
     buttonStyle: {
         width: '20%',
@@ -67,4 +84,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default accountCreated;
+export default AccountCreated;
