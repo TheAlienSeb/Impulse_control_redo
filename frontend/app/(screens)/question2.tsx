@@ -8,6 +8,7 @@ import {
     FlatList,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 // import { FaDesktop } from "react-icons/fa";
 // import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 // import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck";
@@ -48,7 +49,7 @@ const Item = ({ title }: ItemProps) => (
 const Question2: React.FC = () => {
     const router = useRouter();
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
                 <Text style={styles.logo}>IMPUL$E</Text>
                 <Text style={styles.header}>
@@ -83,13 +84,13 @@ const Question2: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("/screens/question1");
+                        router.replace("/(screens)/question1");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
