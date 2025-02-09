@@ -1,6 +1,13 @@
 import colors from "../styles/globalVar";
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    ScrollView,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -8,7 +15,7 @@ const CardMenuTab: React.FC = () => {
     const router = useRouter();
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.spaceBetweenContainer}>
+            <ScrollView contentContainerStyle={styles.spaceBetweenContainer}>
                 <Text style={styles.header}>$250.00</Text>
                 <Text style={styles.info}>Available to spend.</Text>
                 <Image
@@ -50,7 +57,7 @@ const CardMenuTab: React.FC = () => {
                         <Text style={styles.info}>Lock Card</Text>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
             <Text style={styles.header}>Latest Transactions</Text>
             <View style={styles.col}>
                 <View style={styles.row}>
@@ -72,8 +79,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: colors.backgroundColor,
         color: colors.textColor,
-        height: "90%",
-        overflow: "scroll",
+        height: "100%",
     },
     header: {
         fontSize: 24,
@@ -111,7 +117,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         width: "100%",
-        height: "90%",
+        height: "70%",
         paddingHorizontal: 20,
     },
     row: {
