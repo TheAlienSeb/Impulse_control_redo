@@ -94,7 +94,7 @@ const Question2: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("../(root)/accountCreated");
+                        router.replace("/home");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
