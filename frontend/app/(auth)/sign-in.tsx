@@ -14,31 +14,30 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import images
-import backgroundImage from "../../assets/images/background.png";
-import logoImage from "../../assets/images/logo.png";
-import colors from "../styles/globalVar";
+const backgroundImage = require("../../assets/images/background.png");
+const logoImage  =  require('../../assets/images/logo.png');
 
 const SignIn = () => {
-    const [userEmail, setUserEmail] = useState("");
-    const [userPassword, setUserPassword] = useState("");
-    const [loading, setLoading] = useState(true); // Tracks if session is being checked
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+    //const [loading, setLoading] = useState(true); // Tracks if session is being checked
 
-    useEffect(() => {
-        const checkUserSession = async () => {
-            try {
-                const storedUser = await AsyncStorage.getItem("user");
-                if (storedUser) {
-                    router.replace("/home"); // Redirect if user is already signed in
-                    return;
-                }
-            } catch (error) {
-                console.error("Error checking user session:", error);
-            }
-            setLoading(false); // Stop loading once check is complete
-        };
+    // useEffect(() => {
+    //     const checkUserSession = async () => {
+    //         try {
+    //             const storedUser = await AsyncStorage.getItem('user');
+    //             if (storedUser) {
+    //                 router.replace('/home'); // Redirect if user is already signed in
+    //                 return;
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking user session:', error);
+    //         }
+    //         setLoading(false); // Stop loading once check is complete
+    //     };
 
-        checkUserSession();
-    }, []);
+    //     checkUserSession();
+    // }, []);
 
     const handleSignIn = async () => {
         try {
