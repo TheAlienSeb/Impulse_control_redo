@@ -10,8 +10,6 @@ import {
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Import the image
-
 const CardWelcomeTab: React.FC = () => {
     const router = useRouter();
 
