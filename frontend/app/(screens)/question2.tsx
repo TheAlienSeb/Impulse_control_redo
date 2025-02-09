@@ -85,6 +85,7 @@ const Question2: React.FC = () => {
                                         ? colors.primaryColor
                                         : colors.secondaryColor
                                 } // Apply color based on selection
+                                fontId={item.fontId}
                             />
                         </TouchableOpacity>
                     )}
@@ -93,7 +94,7 @@ const Question2: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("../(root)/accountCreated");
+                        router.replace("/home");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
