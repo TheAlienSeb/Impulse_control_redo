@@ -2,6 +2,10 @@
 
 **Impulse Control Redo** is a mobile app built with **React Native** aimed at helping users manage and track their impulses for improved decision-making. This app features an intuitive interface that allows users to input their impulses, track progress, and receive feedback to help them improve their self-control.
 
+## Screenrecording
+
+https://youtu.be/cN7PBrqOEdE?si=1zSzEF2rG0youFFN
+
 ## Features
 
 - **Impulse Tracking**: Users can track their impulses, logging details such as type, urgency, and situation.
