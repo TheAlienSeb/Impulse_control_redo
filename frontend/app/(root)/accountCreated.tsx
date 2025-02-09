@@ -1,5 +1,7 @@
 import { Text, View, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
+import { useEffect} from 'react';
+
 
 const AccountCreated = () => {
     const router = useRouter();
