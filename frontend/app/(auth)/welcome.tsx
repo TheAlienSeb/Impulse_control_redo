@@ -1,5 +1,5 @@
 // import { CurrentRenderContext } from '@react-navigation/native';
-import { View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {router} from "expo-router"
 import Swiper from 'react-native-swiper'
@@ -33,5 +33,36 @@ const Onboarding = () => {
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        width: "100%",
+        height: "100%",
+    },
+    logoContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 10,
+        display: "flex",
+    },
+    logo: {
+        width: 100,
+        height: 100,
+        marginBottom: 10,
+        marginTop:"120%",
+    },
+    text: {
+        color: "white",
+        fontSize: 50,
+        fontWeight: "600",
+    },
+    info:{
+        color: "white",
+        fontSize: 20,
+        fontWeight: "200",
+        marginTop:"50%",
+    }
+});
 
 export default Onboarding;

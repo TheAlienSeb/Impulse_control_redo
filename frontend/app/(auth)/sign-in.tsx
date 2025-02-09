@@ -62,6 +62,7 @@ const SignIn = () => {
             );
             Alert.alert("Error", "Invalid credentials");
         }
+        
     };
 
     return (
@@ -76,7 +77,7 @@ const SignIn = () => {
                     <TextInput
                         style={styles.input}
                         placeholder="Enter your email address..."
-                        placeholderTextColor="white"
+                        placeholderTextColor="black"
                         value={userEmail}
                         onChangeText={setUserEmail}
                     />
@@ -84,14 +85,14 @@ const SignIn = () => {
                     <TextInput
                         style={styles.input}
                         placeholder="Enter your password..."
-                        placeholderTextColor="white"
+                        placeholderTextColor="black"
                         secureTextEntry
                         value={userPassword}
                         onChangeText={setUserPassword}
                     />
                     <TouchableOpacity
                         style={styles.buttonStyle}
-                        onPress={handleSignIn}
+                        onPress={() => router.replace("../(root)/(tabs)/home")}
                     >
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
@@ -152,11 +153,11 @@ const styles = StyleSheet.create({
     input: {
         width: "100%",
         height: 50,
-        backgroundColor: colors.secondaryColor,
+        backgroundColor: "white",
         borderRadius: 10,
         paddingHorizontal: 10,
         marginVertical: 5,
-        color: "white",
+        color: "black",
     },
     buttonStyle: {
         width: "80%",
