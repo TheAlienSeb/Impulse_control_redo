@@ -1,5 +1,5 @@
 import colors from "../styles/globalVar";
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import {
     View,
     Text,
@@ -9,9 +9,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { FaDesktop } from "react-icons/fa";
-// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-// import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const DATA = [
     {
@@ -19,35 +17,52 @@ const DATA = [
         title: "Technology",
     },
     {
-        fontId: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+        fontId: "FaBriefcaseMedical",
         title: "Healthcare",
     },
     {
-        fontId: "58694a0f-3da1-471f-bd96-145571e29d72",
+        fontId: "FaHotdog",
         title: "Food",
     },
     {
-        fontId: "58694a0f-3da1-471f-bd96-145571e29d72",
+        fontId: "FaSchool",
         title: "Education",
     },
     {
-        fontId: "58694a0f-3da1-471f-bd96-145571e29d72",
+        fontId: "FaBusAlt",
         title: "Transportation",
     },
     {
-        fontId: "58694a0f-3da1-471f-bd96-145571e29d72",
+        fontId: "FaTshirt",
         title: "Retail",
     },
 ];
-type ItemProps = { title: string };
 
-const Item = ({ title }: ItemProps) => (
-    <View style={styles.item}>
+type ItemProps = { title: string; backgroundColor: string; fontId: string };
+
+const Item = ({ title, backgroundColor, fontId }: ItemProps) => (
+    <View style={[styles.item, { backgroundColor }]}>
+        <Icon name="{fontId}" size={30} color={colors.textColor} />
         <Text style={styles.title}>{title}</Text>
     </View>
 );
+
 const Question2: React.FC = () => {
     const router = useRouter();
+    const [selectedItems, setSelectedItems] = useState<string[]>([]); // Track multiple selected items
+
+    const handleItemPress = (fontId: string) => {
+        setSelectedItems((prevSelectedItems) => {
+            if (prevSelectedItems.includes(fontId)) {
+                // If item is already selected, remove it
+                return prevSelectedItems.filter((item) => item !== fontId);
+            } else {
+                // If item is not selected, add it
+                return [...prevSelectedItems, fontId];
+            }
+        });
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
@@ -55,36 +70,28 @@ const Question2: React.FC = () => {
                 <Text style={styles.header}>
                     What are your biggest spending expenses?{" "}
                 </Text>
+                <FlatList
+                    data={DATA}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => handleItemPress(item.fontId)}
+                        >
+                            <Item
+                                title={item.title}
+                                backgroundColor={
+                                    selectedItems.includes(item.fontId)
+                                        ? colors.primaryColor
+                                        : colors.secondaryColor
+                                } // Apply color based on selection
+                            />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item.fontId}
+                />
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        // Change the background color of the item on press
-                        DATA.map((item) => {
-                            if (item.title === "Technology") {
-                                return {
-                                    ...item,
-                                    backgroundColor: colors.secondaryColor,
-                                };
-                            }
-                            return item;
-                        });
-                    }}
-                >
-                    <View style={styles.itemContainer}>
-                        <FlatList
-                            data={DATA}
-                            renderItem={({ item }) => (
-                                <Item title={item.title} />
-                            )}
-                            keyExtractor={(item) => item.fontId}
-                        />
-                    </View>
-                </TouchableOpacity>
-                {/* <FontAwesomeIcon icon={faSquareCheck} /> */}
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                        router.replace("/(screens)/question1");
+                        router.replace("/question1");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
@@ -131,6 +138,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingLeft: 20,
         paddingRight: 20,
+        marginTop: 20,
     },
     buttonText: {
         color: colors.textColor,
@@ -153,11 +161,31 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         display: "flex",
-        width: "80%",
+        flexDirection: "row",
         height: "100%",
         flexWrap: "wrap",
         justifyContent: "space-between",
     },
 });
+
+// Custom scrollbar styles
+const globalStyles = `
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background: ${colors.backgroundColor};
+    }
+    ::-webkit-scrollbar-thumb {
+        background: ${colors.primaryColor};
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: ${colors.primaryColor};
+    }
+`;
+
+const styleSheet = document.createElement("style");
+styleSheet.innerText = globalStyles;
+document.head.appendChild(styleSheet);
 
 export default Question2;

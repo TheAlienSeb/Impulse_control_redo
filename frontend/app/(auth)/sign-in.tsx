@@ -80,7 +80,7 @@ const SignIn = () => {
                         value={userPassword}
                         onChangeText={setUserPassword}
                     />
-                    <TouchableOpacity style={styles.buttonStyle} onPress={handleSignIn}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => { router.replace('/finance') }}>
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
@@ -158,6 +158,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '600',
     },
+    forgotPasswordText: {
+        color: '#0369A1'
+    }
 });
 
 export default SignIn;
