@@ -1,6 +1,6 @@
 import colors from "../styles/globalVar";
 import React, { useState } from "react"; // Import useState
-import {router} from "expo-router"
+import { router } from "expo-router";
 
 import {
     View,
@@ -15,27 +15,27 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const DATA = [
     {
-        fontId: "FaDesktop",
+        fontId: "faDesktop",
         title: "Technology",
     },
     {
-        fontId: "FaBriefcaseMedical",
+        fontId: "faBriefcaseMedical",
         title: "Healthcare",
     },
     {
-        fontId: "FaHotdog",
+        fontId: "faHotdog",
         title: "Food",
     },
     {
-        fontId: "FaSchool",
+        fontId: "faSchool",
         title: "Education",
     },
     {
-        fontId: "FaBusAlt",
+        fontId: "faBusAlt",
         title: "Transportation",
     },
     {
-        fontId: "FaTshirt",
+        fontId: "faTshirt",
         title: "Retail",
     },
 ];
@@ -44,7 +44,7 @@ type ItemProps = { title: string; backgroundColor: string; fontId: string };
 
 const Item = ({ title, backgroundColor, fontId }: ItemProps) => (
     <View style={[styles.item, { backgroundColor }]}>
-        <Icon name="{fontId}" size={30} color={colors.textColor} />
+        <Icon name={fontId} size={30} color={colors.textColor} />
         <Text style={styles.title}>{title}</Text>
     </View>
 );
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         color: colors.textColor,
     },
     title: {
-        fontSize: colors.text,
+        fontSize: 18, // Set a numeric value for fontSize
         marginBottom: 10,
         color: colors.textColor,
         display: "flex",
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: colors.textColor,
-        fontSize: colors.text,
+        fontSize: 18, // Set a numeric value for fontSize
     },
     spaceBetweenContainer: {
         justifyContent: "space-around",
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     item: {
         backgroundColor: colors.secondaryColor,
         padding: 20,
-        fontWeight: 500,
+        fontWeight: "500",
         marginVertical: 8,
         marginHorizontal: 8,
         borderRadius: 10,

@@ -8,24 +8,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignIn = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    const [loading, setLoading] = useState(true); // Tracks if session is being checked
+    //const [loading, setLoading] = useState(true); // Tracks if session is being checked
+    //setLoading(false);
+    // useEffect(() => {
+    //     const checkUserSession = async () => {
+    //         try {
+    //             const storedUser = await AsyncStorage.getItem('user');
+    //             if (storedUser) {
+    //                 router.replace('/home'); // Redirect if user is already signed in
+    //                 return;
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking user session:', error);
+    //         }
+    //         setLoading(false); // Stop loading once check is complete
+    //     };
 
-    useEffect(() => {
-        const checkUserSession = async () => {
-            try {
-                const storedUser = await AsyncStorage.getItem('user');
-                if (storedUser) {
-                    router.replace('/home'); // Redirect if user is already signed in
-                    return;
-                }
-            } catch (error) {
-                console.error('Error checking user session:', error);
-            }
-            setLoading(false); // Stop loading once check is complete
-        };
-
-        checkUserSession();
-    }, []);
+    //     checkUserSession();
+    // }, []);
 
     const handleSignIn = async () => {
         try {
@@ -33,6 +33,7 @@ const SignIn = () => {
                 email: userEmail,
                 password: userPassword
             });
+            
 
             const userData = response.data.user;
             await AsyncStorage.setItem('user', JSON.stringify(userData)); // Store session
@@ -45,9 +46,9 @@ const SignIn = () => {
         }
     };
 
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
-    }
+    // if (loading) {
+    //     return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
+    // }
 
     return (
         <ImageBackground 
@@ -80,7 +81,7 @@ const SignIn = () => {
                         value={userPassword}
                         onChangeText={setUserPassword}
                     />
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => { router.replace('/finance') }}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={handleSignIn}>
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
