@@ -11,8 +11,9 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../styles/globalVar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 // Import images
 const backgroundImage = require("../../assets/images/background.png");
@@ -23,22 +24,22 @@ const SignIn = () => {
     const [userPassword, setUserPassword] = useState("");
     const [loading, setLoading] = useState(false); // Initialize loading state
 
-    useEffect(() => {
-        const checkUserSession = async () => {
-            try {
-                const storedUser = await AsyncStorage.getItem('user');
-                if (storedUser) {
-                    router.replace('/home'); // Redirect if user is already signed in
-                    return;
-                }
-            } catch (error) {
-                console.error('Error checking user session:', error);
-            }
-            setLoading(false); // Stop loading once check is complete
-        };
+    // useEffect(() => {
+    //     const checkUserSession = async () => {
+    //         try {
+    //             const storedUser = await AsyncStorage.getItem('user');
+    //             if (storedUser) {
+    //                 router.replace('/home'); // Redirect if user is already signed in
+    //                 return;
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking user session:', error);
+    //         }
+    //         setLoading(false); // Stop loading once check is complete
+    //     };
 
-        checkUserSession();
-    }, []);
+    //     checkUserSession();
+    // }, []);
 
     const handleSignIn = async () => {
         try {

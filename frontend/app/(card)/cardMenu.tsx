@@ -29,6 +29,7 @@ const CardMenuTab: React.FC = () => {
                 const storedUser = await AsyncStorage.getItem("user");
                 if (storedUser) {
                     const parsedUser = JSON.parse(storedUser);
+                    console.log('Loaded user:', parsedUser); // Debug log
                     setUser(parsedUser);
                 } 
                 else {
@@ -61,7 +62,9 @@ const CardMenuTab: React.FC = () => {
                                 balance: newBalance,
                             });
                             if (response.data.success) {
-                                setUser({ ...user, balance: newBalance });
+                                const updatedUser = { ...user, balance: newBalance };
+                                setUser(updatedUser);
+                                await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
                                 Alert.alert('Success', 'Money added successfully');
                             } else {
                                 Alert.alert('Error', response.data.error);
@@ -82,7 +85,7 @@ const CardMenuTab: React.FC = () => {
     };
 
     const handleLockCard = () => {
-        router.replace("/question2");
+        router.replace("../(root)/(tabs)/home");
     };
 
     const handleToggleTransactions = () => {
@@ -121,6 +124,8 @@ const CardMenuTab: React.FC = () => {
     const transactionsToShow = showAllTransactions
         ? user.transactions
         : user.transactions.slice(0, 3);
+
+    console.log('Transactions to show:', transactionsToShow); // Debug log
 
     return (
         <SafeAreaView style={styles.container}>
