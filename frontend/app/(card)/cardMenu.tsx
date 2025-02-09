@@ -15,7 +15,11 @@ const CardMenuTab: React.FC = () => {
     const router = useRouter();
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.spaceBetweenContainer}>
+            <ScrollView
+                contentContainerStyle={styles.spaceBetweenContainer}
+                showsVerticalScrollIndicator={false} // Hide vertical scrollbar
+                showsHorizontalScrollIndicator={false} // Hide horizontal scrollbar
+            >
                 <Text style={styles.header}>$250.00</Text>
                 <Text style={styles.info}>Available to spend.</Text>
                 <Image
@@ -57,17 +61,37 @@ const CardMenuTab: React.FC = () => {
                         <Text style={styles.info}>Lock Card</Text>
                     </View>
                 </View>
-            </ScrollView>
-            <Text style={styles.header}>Latest Transactions</Text>
-            <View style={styles.col}>
-                <View style={styles.row}>
-                    <View style={styles.col}>
-                        <Text style={styles.info}>Transfer</Text>
-                        <Text style={styles.info}>To Haasil Pujara **03</Text>
+                <View style={styles.colLeft}>
+                    <Text style={styles.header3}>Latest Transactions</Text>
+                    <View style={(styles.row, styles.tab)}>
+                        <View style={styles.colLeft}>
+                            <Text style={styles.infoWhite}>Transfer</Text>
+                            <Text style={styles.info}>
+                                To Haasil Pujara **03
+                            </Text>
+                        </View>
+                        <Text style={styles.infoWhite}>$3.50</Text>
                     </View>
-                    <Text style={styles.info}>$3.50</Text>
+                    <View style={(styles.row, styles.tab)}>
+                        <View style={styles.colLeft}>
+                            <Text style={styles.infoWhite}>Transfer</Text>
+                            <Text style={styles.info}>
+                                To Haasil Pujara **03
+                            </Text>
+                        </View>
+                        <Text style={styles.infoWhite}>$3.50</Text>
+                    </View>
+                    <View style={(styles.row, styles.tab)}>
+                        <View style={styles.colLeft}>
+                            <Text style={styles.infoWhite}>Transfer</Text>
+                            <Text style={styles.info}>
+                                To Haasil Pujara **03
+                            </Text>
+                        </View>
+                        <Text style={styles.infoWhite}>$3.50</Text>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -82,9 +106,16 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     header: {
-        fontSize: 24,
+        fontSize: colors.h1,
         fontWeight: "700",
         marginBottom: 20,
+        color: colors.textColor,
+    },
+    header3: {
+        fontSize: colors.h3,
+        fontWeight: "700",
+        marginBottom: 20,
+        justifyContent: "flex-start",
         color: colors.textColor,
     },
     info: {
@@ -94,6 +125,14 @@ const styles = StyleSheet.create({
         display: "flex",
         textAlign: "center",
         opacity: 0.5,
+        marginTop: 10,
+    },
+    infoWhite: {
+        fontSize: colors.text,
+        marginBottom: 10,
+        color: colors.textColor,
+        display: "flex",
+        textAlign: "center",
         marginTop: 10,
     },
     button: {
@@ -117,17 +156,32 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         width: "100%",
-        height: "70%",
+        height: "90%",
         paddingHorizontal: 20,
+        marginTop: 60,
     },
     row: {
         flexDirection: "row",
         justifyContent: "space-around",
         width: "100%",
     },
+    tab: {
+        backgroundColor: colors.secondaryColor,
+        padding: 10,
+        marginVertical: 8,
+        width: 400,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        borderRadius: 10,
+        fontWeight: "500",
+    },
     col: {
         flexDirection: "column",
         alignItems: "center",
+    },
+    colLeft: {
+        flexDirection: "column",
+        alignItems: "flex-start",
     },
     image: {
         transform: [{ rotate: "90deg" }],
