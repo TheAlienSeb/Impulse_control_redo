@@ -1,5 +1,7 @@
 import colors from "../styles/globalVar";
-import React, { useState } from "react";
+import React, { useState } from "react"; // Import useState
+import { router } from "expo-router";
+
 import {
     View,
     Text,
@@ -16,27 +18,27 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DATA = [
     {
-        fontId: "desktop",
+        fontId: "faDesktop",
         title: "Technology",
     },
     {
-        fontId: "briefcase-medical",
+        fontId: "faBriefcaseMedical",
         title: "Healthcare",
     },
     {
-        fontId: "hotdog",
+        fontId: "faHotdog",
         title: "Food",
     },
     {
-        fontId: "school",
+        fontId: "faSchool",
         title: "Education",
     },
     {
-        fontId: "bus-alt",
+        fontId: "faBusAlt",
         title: "Transportation",
     },
     {
-        fontId: "tshirt",
+        fontId: "faTshirt",
         title: "Retail",
     },
 ];
@@ -122,7 +124,9 @@ const Question2: React.FC = () => {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={handleUpdateBiggestSpendingExpenses}
+                    onPress={() => {
+                        router.replace("/home");
+                    }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
                 </TouchableOpacity>
@@ -214,8 +218,8 @@ const globalStyles = `
     }
 `;
 
-const styleSheet = document.createElement("style");
-styleSheet.innerText = globalStyles;
-document.head.appendChild(styleSheet);
+// const styleSheet = document.createElement("style");
+// styleSheet.innerText = globalStyles;
+// document.head.appendChild(styleSheet);
 
 export default Question2;

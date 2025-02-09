@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { Text, View, ImageBackground, StyleSheet, ActivityIndicator } from 'react-native';
-import { useRouter } from "expo-router";
+import { Text, View, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { router } from "expo-router";
 
 const AccountCreated = () => {
     const router = useRouter();
@@ -15,13 +14,22 @@ const AccountCreated = () => {
 
     return (
         <ImageBackground
-            source={require('../../assets/images/confetti_background.png')}
+            source={require('../../assets/images/confetti_background4.png')} 
             style={styles.background}
             resizeMode='cover'
         >
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#0369A1" />
-                <Text style={styles.text}>Account Created Successfully!</Text>
+            <View style={styles.logoContainer}>
+                <ImageBackground 
+                    source={require('../../assets/images/logo.png')} 
+                    style={styles.logo}
+                />
+                <Text style={styles.text}>You're all set!</Text>
+                <TouchableOpacity 
+                    onPress={() => router.replace('/(auth)/sign-up')}
+                    style={styles.buttonStyle}
+                >
+                    <Text style={styles.buttonText}>See Dashboard</Text> 
+                </TouchableOpacity>
             </View>
         </ImageBackground>
     );
@@ -33,19 +41,35 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    container: {
+    logoContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
+    logo: {
+        width: 100, 
+        height: 100,
+        marginBottom: 20, 
+    },
     text: {
-        marginTop: 20,
-        fontSize: 18,
-        color: '#0369A1',
-        fontWeight: 'bold',
-        textShadowColor: 'black',
-        textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 10,
+        color: 'white', 
+        fontSize: 50,
+        fontWeight: '600',
+    },
+    buttonStyle: {
+        width: '20%',
+        alignItems: 'center',
+        marginVertical: 10,
+        backgroundColor: '#0369A1',
+        height: 45,
+        borderRadius: 9999,
+        justifyContent: 'center',
+        marginTop: 15,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 13,
+        fontWeight: '600',
     },
 });
 
