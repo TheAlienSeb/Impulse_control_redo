@@ -3,8 +3,6 @@ import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Alert }
 import { router } from "expo-router";
 import React, { useState } from 'react';
 import axios from "axios";
-import backgroundImage from '../../assets/images/background.png';
-import logoImage from '../../assets/images/logo.png';
 
 
 const SignUp = () => {
@@ -35,13 +33,13 @@ const SignUp = () => {
     
     return (
             <ImageBackground 
-                source={backgroundImage} 
+                source={require('../../assets/images/background.png')} 
                 style={styles.background}
             >
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                     <View style={styles.logoContainer}>
                     <ImageBackground 
-                        source={logoImage} 
+                        source={require('../../assets/images/logo.png')} 
                         style={styles.logo}
                     />
                     <Text style={styles.text}>SmartSave</Text>
