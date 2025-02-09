@@ -9,7 +9,7 @@ const FinanceTab: React.FC = () => {
     return (
         <View style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
-                <Text style={styles.logo}>IMPUL$E</Text>
+                <Text style={styles.logo}>$MART $AVE</Text>
                 <Text style={styles.header}>
                     Let’s fully set up your account!
                 </Text>
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         marginBottom: 20,
         color: colors.textColor,
+        textAlign: "center",
     },
     info: {
         fontSize: colors.text,
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
     spaceBetweenContainer: {
         justifyContent: "space-around",
         alignItems: "center",
+        textAlign: "center",
         width: "100%",
         height: "50%",
         paddingHorizontal: 20,

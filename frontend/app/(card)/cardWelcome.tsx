@@ -71,12 +71,6 @@ const CardWelcomeTab: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    logo: {
-        fontSize: 50,
-        fontWeight: "900",
-        marginBottom: 20,
-        color: colors.primaryColor,
-    },
     container: {
         flex: 1,
         justifyContent: "center",
@@ -121,7 +115,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         width: "100%",
-        height: "50%",
+        height: "70%",
         paddingHorizontal: 20,
     },
     image: {

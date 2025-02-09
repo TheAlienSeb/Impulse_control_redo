@@ -21,33 +21,46 @@ const Question1: React.FC = () => {
             const storedUser = await AsyncStorage.getItem("user");
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
-                const response = await axios.put("http://localhost:5000/api/updateFullName", {
-                    email: parsedUser.email,
-                    fullName: fullName,
-                });
+                const response = await axios.put(
+                    "http://localhost:5000/api/updateFullName",
+                    {
+                        email: parsedUser.email,
+                        fullName: fullName,
+                    }
+                );
 
                 if (response.data.success) {
                     // Update the user data in AsyncStorage
                     parsedUser.fullName = fullName;
-                    await AsyncStorage.setItem("user", JSON.stringify(parsedUser));
+                    await AsyncStorage.setItem(
+                        "user",
+                        JSON.stringify(parsedUser)
+                    );
                     Alert.alert("Success", "Full name updated successfully!");
                     router.replace("/question2");
                 } else {
-                    Alert.alert("Error", response.data.error || "Something went wrong. Please try again.");
+                    Alert.alert(
+                        "Error",
+                        response.data.error ||
+                            "Something went wrong. Please try again."
+                    );
                 }
             } else {
                 router.replace("/(auth)/sign-in");
             }
         } catch (error) {
             console.error("Error updating full name:", error);
-            Alert.alert("Error", error.response?.data?.message || "Failed to update full name.");
+            Alert.alert(
+                "Error",
+                error.response?.data?.message || "Failed to update full name."
+            );
         }
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
-                <Text style={styles.logo}>IMPUL$E</Text>
+                <Text style={styles.logo}>$MART $AVE</Text>
                 <Text style={styles.header}>What is your full name?</Text>
                 <TextInput
                     style={styles.input}
@@ -73,7 +86,7 @@ const Question1: React.FC = () => {
 
 const styles = StyleSheet.create({
     logo: {
-        fontSize: 50,
+        fontSize: colors.h1,
         fontWeight: "900",
         marginBottom: 20,
         color: colors.primaryColor,

@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const CardMenuTab: React.FC = () => {
     const router = useRouter();
@@ -51,7 +52,14 @@ const CardMenuTab: React.FC = () => {
                                 );
                             }}
                         >
-                            <Text style={styles.buttonText}>+</Text>
+                            <Text style={styles.buttonText}>
+                                <Icon
+                                    name="plus"
+                                    size={25}
+                                    color={colors.textColor}
+                                    style={{ paddingBottom: 5 }}
+                                />
+                            </Text>
                         </TouchableOpacity>
                         <Text style={styles.info}>Add Money</Text>
                     </View>
@@ -78,7 +86,14 @@ const CardMenuTab: React.FC = () => {
                                 );
                             }}
                         >
-                            <Text style={styles.buttonText}>🡒</Text>
+                            <Text style={styles.buttonText}>
+                                <Icon
+                                    name="credit-card"
+                                    size={25}
+                                    color={colors.textColor}
+                                    style={{ paddingBottom: 5 }}
+                                />
+                            </Text>
                         </TouchableOpacity>
                         <Text style={styles.info}>Card Details</Text>
                     </View>
@@ -89,7 +104,14 @@ const CardMenuTab: React.FC = () => {
                                 router.replace("/question2");
                             }}
                         >
-                            <Text style={styles.buttonText}>-</Text>
+                            <Text style={styles.buttonText}>
+                                <Icon
+                                    name="lock"
+                                    size={25}
+                                    color={colors.textColor}
+                                    style={{ paddingBottom: 5 }}
+                                />
+                            </Text>
                         </TouchableOpacity>
                         <Text style={styles.info}>Lock Card</Text>
                     </View>
@@ -97,28 +119,42 @@ const CardMenuTab: React.FC = () => {
                 <View style={styles.colLeft}>
                     <Text style={styles.header3}>Latest Transactions</Text>
                     <View style={(styles.row, styles.tab)}>
-                        <View style={styles.colLeft}>
-                            <Text style={styles.infoWhite}>Transfer</Text>
-                            <Text style={styles.info}>
-                                To Haasil Pujara **03
-                            </Text>
-                        </View>
-                        <Text style={styles.infoWhite}>$3.50</Text>
-                    </View>
-                    <View style={(styles.row, styles.tab)}>
-                        <View style={styles.colLeft}>
-                            <Text style={styles.infoWhite}>Transfer</Text>
-                            <Text style={styles.info}>
-                                To Haasil Pujara **03
-                            </Text>
-                        </View>
-                        <Text style={styles.infoWhite}>$3.50</Text>
-                    </View>
-                    <View style={(styles.row, styles.tab)}>
-                        <Image
-                            source={require("../../assets/images/placeholder.png")}
+                        <Icon
+                            name="money"
+                            size={25}
+                            color={colors.textColor}
                             style={styles.imageIcon}
-                        ></Image>
+                        />
+                        <View style={styles.colLeft}>
+                            <Text style={styles.infoWhite}>Transfer</Text>
+                            <Text style={styles.info}>
+                                To Haasil Pujara **03
+                            </Text>
+                        </View>
+                        <Text style={styles.infoWhite}>$3.50</Text>
+                    </View>
+                    <View style={(styles.row, styles.tab)}>
+                        <Icon
+                            name="money"
+                            size={25}
+                            color={colors.textColor}
+                            style={styles.imageIcon}
+                        />
+                        <View style={styles.colLeft}>
+                            <Text style={styles.infoWhite}>Transfer</Text>
+                            <Text style={styles.info}>
+                                To Haasil Pujara **03
+                            </Text>
+                        </View>
+                        <Text style={styles.infoWhite}>$3.50</Text>
+                    </View>
+                    <View style={(styles.row, styles.tab)}>
+                        <Icon
+                            name="money"
+                            size={25}
+                            color={colors.textColor}
+                            style={styles.imageIcon}
+                        />
                         <View style={styles.colLeft}>
                             <Text style={styles.infoWhite}>Transfer</Text>
                             <Text style={styles.info}>
@@ -233,7 +269,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
         borderRadius: 50,
-        marginTop: "4%",
+        marginTop: "10%",
     },
 });
 

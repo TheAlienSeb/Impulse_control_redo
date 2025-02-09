@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     FlatList,
     Alert,
+    ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,27 +17,27 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DATA = [
     {
-        fontId: "faDesktop",
+        fontId: "desktop",
         title: "Technology",
     },
     {
-        fontId: "faBriefcaseMedical",
+        fontId: "hospital-o",
         title: "Healthcare",
     },
     {
-        fontId: "faHotdog",
+        fontId: "apple",
         title: "Food",
     },
     {
-        fontId: "faSchool",
+        fontId: "book",
         title: "Education",
     },
     {
-        fontId: "faBusAlt",
+        fontId: "bus",
         title: "Transportation",
     },
     {
-        fontId: "faTshirt",
+        fontId: "diamond",
         title: "Retail",
     },
 ];
@@ -45,7 +46,12 @@ type ItemProps = { title: string; backgroundColor: string; fontId: string };
 
 const Item = ({ title, backgroundColor, fontId }: ItemProps) => (
     <View style={[styles.item, { backgroundColor }]}>
-        <Icon name={fontId} size={30} color={colors.textColor} />
+        <Icon
+            name={fontId}
+            size={25}
+            color={colors.textColor}
+            style={{ paddingBottom: 5 }}
+        />
         <Text style={styles.title}>{title}</Text>
     </View>
 );
@@ -71,55 +77,75 @@ const Question2: React.FC = () => {
             const storedUser = await AsyncStorage.getItem("user");
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
-                const response = await axios.put("http://localhost:5000/api/updateBiggestSpendingExpenses", {
-                    email: parsedUser.email,
-                    biggestSpendingExpenses: selectedItems,
-                });
+                const response = await axios.put(
+                    "http://localhost:5000/api/updateBiggestSpendingExpenses",
+                    {
+                        email: parsedUser.email,
+                        biggestSpendingExpenses: selectedItems,
+                    }
+                );
 
                 if (response.data.success) {
                     // Update the user data in AsyncStorage
                     parsedUser.biggestSpendingExpenses = selectedItems;
-                    await AsyncStorage.setItem("user", JSON.stringify(parsedUser));
-                    Alert.alert("Success", "Biggest spending expenses updated successfully!");
+                    await AsyncStorage.setItem(
+                        "user",
+                        JSON.stringify(parsedUser)
+                    );
+                    Alert.alert(
+                        "Success",
+                        "Biggest spending expenses updated successfully!"
+                    );
                     router.replace("../(root)/accountCreated");
                 } else {
-                    Alert.alert("Error", response.data.error || "Something went wrong. Please try again.");
+                    Alert.alert(
+                        "Error",
+                        response.data.error ||
+                            "Something went wrong. Please try again."
+                    );
                 }
             } else {
                 router.replace("/(auth)/sign-in");
             }
         } catch (error) {
             console.error("Error updating biggest spending expenses:", error);
-            Alert.alert("Error", error.response?.data?.message || "Failed to update biggest spending expenses.");
+            Alert.alert(
+                "Error",
+                error.response?.data?.message ||
+                    "Failed to update biggest spending expenses."
+            );
         }
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.spaceBetweenContainer}>
-                <Text style={styles.logo}>IMPUL$E</Text>
+                <Text style={styles.logo}>$MART $AVE</Text>
+
                 <Text style={styles.header}>
                     What are your biggest spending expenses?{" "}
                 </Text>
-                <FlatList
-                    data={DATA}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            onPress={() => handleItemPress(item.fontId)}
-                        >
-                            <Item
-                                title={item.title}
-                                backgroundColor={
-                                    selectedItems.includes(item.fontId)
-                                        ? colors.primaryColor
-                                        : colors.secondaryColor
-                                } // Apply color based on selection
-                                fontId={item.fontId}
-                            />
-                        </TouchableOpacity>
-                    )}
-                    keyExtractor={(item) => item.fontId}
-                />
+                <ScrollView contentContainerStyle={styles.itemContainer}>
+                    <FlatList
+                        data={DATA}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                onPress={() => handleItemPress(item.fontId)}
+                            >
+                                <Item
+                                    title={item.title}
+                                    backgroundColor={
+                                        selectedItems.includes(item.fontId)
+                                            ? colors.primaryColor
+                                            : colors.secondaryColor
+                                    } // Apply color based on selection
+                                    fontId={item.fontId}
+                                />
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item.fontId}
+                    />
+                </ScrollView>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={handleUpdateBiggestSpendingExpenses}
@@ -133,7 +159,7 @@ const Question2: React.FC = () => {
 
 const styles = StyleSheet.create({
     logo: {
-        fontSize: 50,
+        fontSize: colors.h1,
         fontWeight: "900",
         marginBottom: 20,
         color: colors.primaryColor,
@@ -152,6 +178,7 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         marginBottom: 20,
         color: colors.textColor,
+        textAlign: "center",
     },
     title: {
         fontSize: 18, // Set a numeric value for fontSize
@@ -180,42 +207,23 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "85%",
         paddingHorizontal: 20,
+        textAlign: "center",
     },
     item: {
         backgroundColor: colors.secondaryColor,
         padding: 20,
+        paddingHorizontal: 90,
         fontWeight: "500",
         marginVertical: 8,
         marginHorizontal: 8,
         borderRadius: 10,
+        justifyContent: "flex-start",
     },
     itemContainer: {
-        display: "flex",
-        flexDirection: "row",
-        height: "100%",
-        flexWrap: "wrap",
+        flexDirection: "column",
         justifyContent: "space-between",
+        alignItems: "center",
     },
 });
-
-// Custom scrollbar styles
-const globalStyles = `
-    ::-webkit-scrollbar {
-        width: 5px;
-    }
-    ::-webkit-scrollbar-track {
-        background: ${colors.backgroundColor};
-    }
-    ::-webkit-scrollbar-thumb {
-        background: ${colors.primaryColor};
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: ${colors.primaryColor};
-    }
-`;
-
-// const styleSheet = document.createElement("style");
-// styleSheet.innerText = globalStyles;
-// document.head.appendChild(styleSheet);
 
 export default Question2;
