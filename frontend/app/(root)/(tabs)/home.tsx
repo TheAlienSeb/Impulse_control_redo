@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
 const Home = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         const loadUser = async () => {
             try {
                 const storedUser = await AsyncStorage.getItem('user');
+                console.log('Stored user:', storedUser); // Debug log
                 if (storedUser) {
-                    setUser(JSON.parse(storedUser)); // Set user data from AsyncStorage
+                    setUser(JSON.parse(storedUser));
                 } else {
-                    router.replace('/(auth)/sign-in'); // Redirect to sign-in if no user session found
+                    router.replace('/(auth)/sign-in');
                 }
             } catch (error) {
                 console.error('Error loading user:', error);
             }
-            setLoading(false); // Stop loading once session check is complete
+            setLoading(false);
         };
 
         loadUser();
@@ -27,9 +29,9 @@ const Home = () => {
 
     const handleSignOut = async () => {
         try {
-            await AsyncStorage.removeItem('user'); // Clear user session
+            await AsyncStorage.removeItem('user');
             Alert.alert('Logged out', 'You have been signed out.');
-            router.replace('/(auth)/sign-in'); // Redirect to sign-in page
+            router.replace('/(auth)/sign-in');
         } catch (error) {
             console.error('Error signing out:', error);
             Alert.alert('Error', 'An error occurred while signing out.');
@@ -37,7 +39,7 @@ const Home = () => {
     };
 
     if (loading) {
-        return <Text>Loading...</Text>; // You can replace this with a loading spinner if needed
+        return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
     return (
@@ -58,10 +60,8 @@ const Home = () => {
                     {user && (
                         <Text style={styles.userEmail}>Welcome, {user.email}!</Text>
                     )}
-                    <TouchableOpacity 
-                        onPress={handleSignOut} 
-                        style={styles.signOutButton}
-                    >
+                    {/* Sign Out Button */}
+                    <TouchableOpacity onPress={handleSignOut} style={styles.signOutButton}>
                         <Text style={styles.buttonText}>Sign Out</Text>
                     </TouchableOpacity>
                 </View>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     signOutButton: {
-        backgroundColor: 'red',
+        backgroundColor: 'red', // Ensure the button is visible
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 10,

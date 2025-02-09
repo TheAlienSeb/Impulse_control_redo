@@ -13,27 +13,27 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const DATA = [
     {
-        fontId: "FaDesktop",
+        fontId: "desktop",
         title: "Technology",
     },
     {
-        fontId: "FaBriefcaseMedical",
+        fontId: "briefcase-medical",
         title: "Healthcare",
     },
     {
-        fontId: "FaHotdog",
+        fontId: "hotdog",
         title: "Food",
     },
     {
-        fontId: "FaSchool",
+        fontId: "school",
         title: "Education",
     },
     {
-        fontId: "FaBusAlt",
+        fontId: "bus-alt",
         title: "Transportation",
     },
     {
-        fontId: "FaTshirt",
+        fontId: "tshirt",
         title: "Retail",
     },
 ];
@@ -42,7 +42,7 @@ type ItemProps = { title: string; backgroundColor: string; fontId: string };
 
 const Item = ({ title, backgroundColor, fontId }: ItemProps) => (
     <View style={[styles.item, { backgroundColor }]}>
-        <Icon name="{fontId}" size={30} color={colors.textColor} />
+        <Icon name={fontId} size={30} color={colors.textColor} />
         <Text style={styles.title}>{title}</Text>
     </View>
 );
@@ -83,6 +83,7 @@ const Question2: React.FC = () => {
                                         ? colors.primaryColor
                                         : colors.secondaryColor
                                 } // Apply color based on selection
+                                fontId={item.fontId}
                             />
                         </TouchableOpacity>
                     )}
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         color: colors.textColor,
     },
     title: {
-        fontSize: colors.text,
+        fontSize: 18, // Set a numeric value for fontSize
         marginBottom: 10,
         color: colors.textColor,
         display: "flex",
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: colors.textColor,
-        fontSize: colors.text,
+        fontSize: 18, // Set a numeric value for fontSize
     },
     spaceBetweenContainer: {
         justifyContent: "space-around",
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     item: {
         backgroundColor: colors.secondaryColor,
         padding: 20,
-        fontWeight: 500,
+        fontWeight: "500",
         marginVertical: 8,
         marginHorizontal: 8,
         borderRadius: 10,
