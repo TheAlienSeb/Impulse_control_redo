@@ -33,27 +33,44 @@ const CardCreateTab: React.FC = () => {
             const storedUser = await AsyncStorage.getItem("user");
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
-                const response = await axios.put("http://localhost:5000/api/updateCardDetails", {
-                    email: parsedUser.email,
-                    cardDetails: cardDetails,
-                });
+                const response = await axios.put(
+                    "http://localhost:5000/api/updateCardDetails",
+                    {
+                        email: parsedUser.email,
+                        cardDetails: cardDetails,
+                    }
+                );
 
                 if (response.data.success) {
                     // Update the user data in AsyncStorage
                     parsedUser.card = cardDetails;
-                    await AsyncStorage.setItem("user", JSON.stringify(parsedUser));
-                    Alert.alert("Success", "Card details updated successfully!");
+                    await AsyncStorage.setItem(
+                        "user",
+                        JSON.stringify(parsedUser)
+                    );
+                    Alert.alert(
+                        "Success",
+                        "Card details updated successfully!"
+                    );
                     setModalVisible(false);
                     router.replace("/cardMenu");
                 } else {
-                    Alert.alert("Error", response.data.error || "Something went wrong. Please try again.");
+                    Alert.alert(
+                        "Error",
+                        response.data.error ||
+                            "Something went wrong. Please try again."
+                    );
                 }
             } else {
                 router.replace("/(auth)/sign-in");
             }
         } catch (error) {
             console.error("Error updating card details:", error);
-            Alert.alert("Error", error.response?.data?.message || "Failed to update card details.");
+            Alert.alert(
+                "Error",
+                error.response?.data?.message ||
+                    "Failed to update card details."
+            );
         }
     };
 
@@ -80,30 +97,40 @@ const CardCreateTab: React.FC = () => {
                 >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Enter Card Details</Text>
+                            <Text style={styles.modalText}>
+                                Enter Card Details
+                            </Text>
                             <TextInput
                                 style={styles.input}
                                 placeholder="Card Holder Name"
                                 value={cardDetails.cardName}
-                                onChangeText={(value) => handleInputChange("cardName", value)}
+                                onChangeText={(value) =>
+                                    handleInputChange("cardName", value)
+                                }
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="Card Number"
                                 value={cardDetails.cardNumber}
-                                onChangeText={(value) => handleInputChange("cardNumber", value)}
+                                onChangeText={(value) =>
+                                    handleInputChange("cardNumber", value)
+                                }
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="Expiry Date"
                                 value={cardDetails.expiryDate}
-                                onChangeText={(value) => handleInputChange("expiryDate", value)}
+                                onChangeText={(value) =>
+                                    handleInputChange("expiryDate", value)
+                                }
                             />
                             <TextInput
                                 style={styles.input}
                                 placeholder="CVV"
                                 value={cardDetails.cvv}
-                                onChangeText={(value) => handleInputChange("cvv", value)}
+                                onChangeText={(value) =>
+                                    handleInputChange("cvv", value)
+                                }
                             />
                             <TouchableOpacity
                                 style={styles.saveButton}
@@ -115,7 +142,9 @@ const CardCreateTab: React.FC = () => {
                                 style={styles.cancelButton}
                                 onPress={() => setModalVisible(false)}
                             >
-                                <Text style={styles.cancelButtonText}>Cancel</Text>
+                                <Text style={styles.cancelButtonText}>
+                                    Cancel
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -126,12 +155,6 @@ const CardCreateTab: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    logo: {
-        fontSize: 50,
-        fontWeight: "900",
-        marginBottom: 20,
-        color: colors.primaryColor,
-    },
     container: {
         flex: 1,
         justifyContent: "center",
@@ -158,11 +181,13 @@ const styles = StyleSheet.create({
     cardBox: {
         width: 350,
         height: 200,
-        backgroundColor: "#D3D3D3",
+        backgroundColor: colors.secondaryColor,
         justifyContent: "center",
         alignItems: "center",
         marginTop: 20,
         marginBottom: 20,
+        borderRadius: 10,
+        opacity: 0.4,
     },
     plusSign: {
         fontSize: 50,
