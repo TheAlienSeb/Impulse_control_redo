@@ -14,7 +14,7 @@
 - **React Native** - Core framework for mobile app development.
 - **React Navigation** - For managing app navigation and routing.
 - **React Context API** - For state management across the app.
-- **Firebase** (Optional) - For backend functionality like data persistence (optional, based on repo setup).
+- **Firebase** - For backend functionality like data persistence.
 
 ## Installation
 
@@ -32,3 +32,24 @@ You'll also need to install **React Native CLI**. For detailed setup, check the 
 
    ```bash
    git clone https://github.com/TheAlienSeb/Impulse_control_redo.git
+2. Navigate to the project directory:
+   ```bash
+   cd Impulse_control_redo
+3. Install dependencies:
+   ```bash
+   npm install
+4. Run the app on your preferred platform:
+* For Android:
+   ```bash
+   npx react-native run-android
+* For IOS:
+  ```bash
+  npx react-native run-ios
+Make sure you have an Android emulator or iOS simulator running, or a physical device connected.
+Usage
+
+### Once the app is running, you can start by adding impulses in the app and tracking them over time. The main features of the app include:
+
+- Impulse Logging: Add details about your impulses and log them.
+- Track Progress: View your progress over time through graphs and stats.
+- Notifications: Set up reminders to stay on track
