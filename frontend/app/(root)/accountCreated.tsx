@@ -1,7 +1,19 @@
 import { Text, View, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
+import { useEffect} from 'react';
 
-const accountCreated = () => {
+
+const AccountCreated = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            router.replace('/(root)/(tabs)/home');
+        }, 3000); // 3 seconds timeout
+
+        return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }, []);
+
     return (
         <ImageBackground
             source={require('../../assets/images/confetti_background4.png')} 
@@ -22,8 +34,8 @@ const accountCreated = () => {
                 </TouchableOpacity>
             </View>
         </ImageBackground>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     background: {
@@ -63,4 +75,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default accountCreated;
+export default AccountCreated;

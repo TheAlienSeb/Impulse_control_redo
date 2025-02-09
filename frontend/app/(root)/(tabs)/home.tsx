@@ -14,7 +14,14 @@ const Home = () => {
                 const storedUser = await AsyncStorage.getItem('user');
                 console.log('Stored user:', storedUser); // Debug log
                 if (storedUser) {
-                    setUser(JSON.parse(storedUser));
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+
+                    // Check if fullName is empty or biggestSpendingExpenses is an empty array
+                    if (!parsedUser.fullName || parsedUser.biggestSpendingExpenses.length === 0) {
+                        router.replace('../../(screens)/finance');
+                        return;
+                    }
                 } else {
                     router.replace('/(auth)/sign-in');
                 }
