@@ -1,47 +1,65 @@
-import { TouchableOpacity } from 'react-native';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TextInput, Alert } from 'react-native';
+import { TouchableOpacity } from "react-native";
+import {
+    Text,
+    ScrollView,
+    View,
+    ImageBackground,
+    StyleSheet,
+    TextInput,
+    Alert,
+} from "react-native";
 import { router } from "expo-router";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import axios from "axios";
-import backgroundImage from '../../assets/images/background.png';
-import logoImage from '../../assets/images/logo.png';
-
+import colors from "../styles/globalVar";
 
 const SignUp = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleSignUp = async () => {
         try {
-            console.log('Attempting to sign up with:', { email: username, password });
-            const response = await axios.post('http://localhost:5000/api/createUser', {
-                email: username, // Make sure your field names match the backend
-                password
+            console.log("Attempting to sign up with:", {
+                email: username,
+                password,
             });
-            console.log('Response received:', response.data);
-    
+            const response = await axios.post(
+                "http://localhost:5000/api/createUser",
+                {
+                    email: username, // Make sure your field names match the backend
+                    password,
+                }
+            );
+            console.log("Response received:", response.data);
+
             // Assume the backend returns a success message.
-            Alert.alert('Success', 'Account created successfully! Please sign in.');
-            
+            Alert.alert(
+                "Success",
+                "Account created successfully! Please sign in."
+            );
+
             // Redirect to the sign-in page (do not automatically store user data)
             setTimeout(() => {
-                router.replace('/(auth)/sign-in'); // Use your appropriate route path
+                router.replace("/(auth)/sign-in"); // Use your appropriate route path
             }, 2000); // Optional delay for user to read the success message
         } catch (error) {
-            console.error('Error signing up:', error);
-            Alert.alert('Error', error.response?.data?.message || 'Failed to sign up.');
+            console.error("Error signing up:", error);
+            Alert.alert(
+                "Error",
+                error.response?.data?.message || "Failed to sign up."
+            );
         }
     };
-    
+
     return (
-            <ImageBackground 
-                source={backgroundImage} 
-                style={styles.background}
-            >
+        <ImageBackground
+            source={require("../../assets/images/background.png")}
+            style={styles.background}
+        >
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                    <View style={styles.logoContainer}>
-                    <ImageBackground 
-                        source={logoImage} 
+                <View style={styles.logoContainer}>
+                    <ImageBackground
+                        source={require("../../assets/images/logo.png")}
                         style={styles.logo}
                     />
                     <Text style={styles.text}>SmartSave</Text>
@@ -49,31 +67,36 @@ const SignUp = () => {
 
                 <View style={styles.inputContainer}>
                     <Text style={styles.smallText}>Username</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="Enter your email address..." 
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter your email address..."
                         placeholderTextColor="white"
                         value={username}
                         onChangeText={setUsername} // Capture user input
                     />
                     <Text style={styles.smallText}>Password</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="Enter your password..." 
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter your password..."
                         placeholderTextColor="white"
                         secureTextEntry
                         value={password}
                         onChangeText={setPassword} // Capture user input
                     />
-                    <TouchableOpacity style={styles.buttonStyle} onPress={handleSignUp}>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        onPress={handleSignUp}
+                    >
                         <Text style={styles.buttonText}>Create Account</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         onPress={() => {
-                            router.replace('/(auth)/sign-in')
+                            router.replace("/(auth)/sign-in");
                         }}
                     >
-                        <Text style={styles.alreadyHaveAccount}>Already have an account? Sign in</Text> 
+                        <Text style={styles.alreadyHaveAccount}>
+                            Already have an account? Sign in
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -84,68 +107,69 @@ const SignUp = () => {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
     },
     scrollViewContent: {
-        marginTop: 100,
+        marginTop: "15%",
         flexGrow: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: "flex-start",
+        alignItems: "center",
     },
     logoContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 10,
     },
     logo: {
-        width: 100, 
+        width: 100,
         height: 100,
-        marginBottom: 20, 
+        marginBottom: 10,
     },
     text: {
-        color: 'white',
+        color: "white",
         fontSize: 50,
-        fontWeight: '600',
+        fontWeight: "600",
     },
     smallText: {
-        color: 'white',
-        fontSize: 17,
-        fontWeight: '600',
-        alignSelf: 'flex-start',
-        marginLeft: '1%',
+        color: "white",
+        fontSize: colors.text,
+        fontWeight: "600",
+        alignSelf: "flex-start",
+        marginLeft: "1%",
     },
     inputContainer: {
-        width: '80%',
-        alignItems: 'center',
+        width: "80%",
+        alignItems: "center",
         flex: 1,
+        padding: 10,
     },
     input: {
-        width: '100%',
+        width: "100%",
         height: 50,
-        backgroundColor: '#1F2937',
-        borderRadius: 9999,
+        backgroundColor: colors.secondaryColor,
+        borderRadius: 10,
         paddingHorizontal: 10,
-        marginVertical: 10,
-        color: 'white',
+        marginVertical: 5,
+        color: colors.textColor,
     },
     buttonStyle: {
-        width: '80%',
-        alignItems: 'center',
-        marginVertical: 10,
-        backgroundColor: '#0369A1',
-        height: 45,
-        borderRadius: 9999,
-        justifyContent: 'center',
-        marginTop: 30,
+        width: "80%",
+        alignItems: "center",
+        backgroundColor: colors.primaryColor,
+        borderRadius: 50,
+        justifyContent: "center",
+        marginTop: 15,
+        padding: 10,
     },
     buttonText: {
-        color: 'white',
-        fontSize: 17,
-        fontWeight: '600',
+        color: colors.textColor,
+        fontSize: colors.text,
+        fontWeight: "600",
     },
     alreadyHaveAccount: {
-        color: '#0369A1'
+        color: colors.primaryColor,
+        marginTop: 10,
     },
 });
 

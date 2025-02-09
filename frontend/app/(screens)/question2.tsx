@@ -96,7 +96,7 @@ const Question2: React.FC = () => {
                         "Success",
                         "Biggest spending expenses updated successfully!"
                     );
-                    router.replace("../(root)/accountCreated");
+                    router.replace("/(screens)/question3");
                 } else {
                     Alert.alert(
                         "Error",

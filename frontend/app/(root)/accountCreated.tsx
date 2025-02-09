@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Image, Alert} from 'react-native';
 import { useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AccountCreated = () => {
     const router = useRouter();
@@ -13,6 +14,28 @@ const AccountCreated = () => {
 
         return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }, []);
+
+    const handleSeeDashboard = async () => {
+        try {
+            const storedUser = await AsyncStorage.getItem('user');
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                // Update the user data in AsyncStorage to ensure all fields are filled
+                await AsyncStorage.setItem('user', JSON.stringify({
+                    ...parsedUser,
+                    fullName: parsedUser.fullName || 'Default Name',
+                    biggestSpendingExpenses: parsedUser.biggestSpendingExpenses.length > 0 ? parsedUser.biggestSpendingExpenses : ['Default Expense'],
+                    balance: parsedUser.balance || 100,
+                }));
+                router.replace('/(tabs)/home');
+            } else {
+                router.replace('/(auth)/sign-in');
+            }
+        } catch (error) {
+            console.error('Error updating user data:', error);
+            Alert.alert('Error', 'An error occurred while updating your data.');
+        }
+    };
 
     return (
         <ImageBackground
@@ -31,7 +54,7 @@ const AccountCreated = () => {
                     <>
                         <Text style={styles.text}>You're all set!</Text>
                         <TouchableOpacity 
-                            onPress={() => router.replace('/(tabs)/home')}
+                            onPress={handleSeeDashboard}
                             style={styles.buttonStyle}
                         >
                             <Text style={styles.buttonText}>See Dashboard</Text> 

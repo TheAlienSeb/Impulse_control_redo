@@ -9,16 +9,19 @@ import {
     ScrollView,
     Alert,
     ActivityIndicator,
+    Animated,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
 
 const CardMenuTab: React.FC = () => {
     const router = useRouter();
     const [user, setUser] = useState(null);
     const [showAllTransactions, setShowAllTransactions] = useState(false);
+    const [animationHeight] = useState(new Animated.Value(0));
 
     useEffect(() => {
         const loadUser = async () => {
@@ -39,7 +42,7 @@ const CardMenuTab: React.FC = () => {
         loadUser();
     }, []);
 
-    const handleAddMoney = () => {
+    const handleAddMoney = async () => {
         Alert.alert(
             "Add Money",
             "Are you sure you want to add money?",
@@ -50,7 +53,24 @@ const CardMenuTab: React.FC = () => {
                 },
                 {
                     text: "OK",
-                    onPress: () => console.log("Money added"),
+                    onPress: async () => {
+                        try {
+                            const newBalance = user.balance + 100; // Example increment
+                            const response = await axios.put('http://localhost:5000/api/updateBalance', {
+                                email: user.email,
+                                balance: newBalance,
+                            });
+                            if (response.data.success) {
+                                setUser({ ...user, balance: newBalance });
+                                Alert.alert('Success', 'Money added successfully');
+                            } else {
+                                Alert.alert('Error', response.data.error);
+                            }
+                        } catch (error) {
+                            console.error('Error adding money:', error);
+                            Alert.alert('Error', 'An error occurred while adding money');
+                        }
+                    },
                 },
             ],
             { cancelable: false }
@@ -65,8 +85,21 @@ const CardMenuTab: React.FC = () => {
         router.replace("/question2");
     };
 
-    const handleSeeAllTransactions = () => {
-        setShowAllTransactions(true);
+    const handleToggleTransactions = () => {
+        if (showAllTransactions) {
+            Animated.timing(animationHeight, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false,
+            }).start(() => setShowAllTransactions(false));
+        } else {
+            setShowAllTransactions(true);
+            Animated.timing(animationHeight, {
+                toValue: user.transactions.length * 60, // Adjust height based on the number of transactions
+                duration: 300,
+                useNativeDriver: false,
+            }).start();
+        }
     };
 
     if (!user) {
@@ -155,8 +188,15 @@ const CardMenuTab: React.FC = () => {
                         <Text style={styles.info}>Lock Card</Text>
                     </View>
                 </View>
-                <View style={styles.colLeft}>
+                <View style={styles.row}>
                     <Text style={styles.header3}>Latest Transactions</Text>
+                    <TouchableOpacity onPress={handleToggleTransactions}>
+                        <Text style={styles.seeAllText}>
+                            {showAllTransactions ? "Show Less" : "Show More"}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <Animated.View style={{ height: animationHeight }}>
                     {user.transactions.length === 0 ? (
                         <Text style={styles.info}>No Transactions Yet...</Text>
                     ) : (
@@ -182,12 +222,7 @@ const CardMenuTab: React.FC = () => {
                             </View>
                         ))
                     )}
-                    {user.transactions.length > 3 && !showAllTransactions && (
-                        <TouchableOpacity onPress={handleSeeAllTransactions}>
-                            <Text style={styles.seeAllText}>See All</Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
+                </Animated.View>
             </ScrollView>
         </SafeAreaView>
     );
@@ -266,7 +301,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         width: "100%",
     },
     tab: {

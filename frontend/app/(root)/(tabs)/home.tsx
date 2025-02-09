@@ -28,8 +28,8 @@ const Home = () => {
                     const parsedUser = JSON.parse(storedUser);
                     setUser(parsedUser);
 
-                    // Check if fullName is empty or biggestSpendingExpenses is an empty array
-                    if (!parsedUser.fullName || parsedUser.biggestSpendingExpenses.length === 0) {
+                    // Check if fullName is empty, biggestSpendingExpenses is an empty array, or budget is 0
+                    if (!parsedUser.fullName || parsedUser.biggestSpendingExpenses.length === 0 || parsedUser.balance === 0) {
                         router.replace('../../(screens)/finance');
                         return;
                     }
