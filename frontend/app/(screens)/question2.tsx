@@ -13,27 +13,27 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const DATA = [
     {
-        fontId: "FaDesktop",
+        fontId: "faDesktop",
         title: "Technology",
     },
     {
-        fontId: "FaBriefcaseMedical",
+        fontId: "faBriefcaseMedical",
         title: "Healthcare",
     },
     {
-        fontId: "FaHotdog",
+        fontId: "faHotdog",
         title: "Food",
     },
     {
-        fontId: "FaSchool",
+        fontId: "faSchool",
         title: "Education",
     },
     {
-        fontId: "FaBusAlt",
+        fontId: "faBusAlt",
         title: "Transportation",
     },
     {
-        fontId: "FaTshirt",
+        fontId: "faTshirt",
         title: "Retail",
     },
 ];
@@ -42,7 +42,7 @@ type ItemProps = { title: string; backgroundColor: string; fontId: string };
 
 const Item = ({ title, backgroundColor, fontId }: ItemProps) => (
     <View style={[styles.item, { backgroundColor }]}>
-        <Icon name="{fontId}" size={30} color={colors.textColor} />
+        <Icon name={fontId} size={30} color={colors.textColor} />
         <Text style={styles.title}>{title}</Text>
     </View>
 );
@@ -83,6 +83,7 @@ const Question2: React.FC = () => {
                                         ? colors.primaryColor
                                         : colors.secondaryColor
                                 } // Apply color based on selection
+                                fontId={item.fontId}
                             />
                         </TouchableOpacity>
                     )}
@@ -91,7 +92,7 @@ const Question2: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("/question1");
+                        router.replace("/cardWelcome");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
