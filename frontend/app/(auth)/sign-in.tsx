@@ -13,14 +13,15 @@ import { router } from "expo-router";
 import axios from "axios";
 import colors from "../styles/globalVar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import colors from "../styles/globalVar";
 
 // Import images
 const backgroundImage = require("../../assets/images/background.png");
-const logoImage  =  require('../../assets/images/logo.png');
+const logoImage = require("../../assets/images/logo.png");
 
 const SignIn = () => {
-    const [userEmail, setUserEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
+    const [userEmail, setUserEmail] = useState("");
+    const [userPassword, setUserPassword] = useState("");
     //const [loading, setLoading] = useState(true); // Tracks if session is being checked
 
     // useEffect(() => {
