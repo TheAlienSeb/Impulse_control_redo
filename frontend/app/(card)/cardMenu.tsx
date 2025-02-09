@@ -31,7 +31,8 @@ const CardMenuTab: React.FC = () => {
                     const parsedUser = JSON.parse(storedUser);
                     console.log('Loaded user:', parsedUser); // Debug log
                     setUser(parsedUser);
-                } else {
+                } 
+                else {
                     router.replace("/(auth)/sign-in");
                 }
             } catch (error) {

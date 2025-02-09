@@ -8,7 +8,7 @@ import {
     Animated,
     ActivityIndicator,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
