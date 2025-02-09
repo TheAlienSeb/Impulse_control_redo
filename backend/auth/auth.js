@@ -198,4 +198,31 @@ router.put('/updateCardDetails', async (req, res) => {
     }
 });
 
+// New endpoint to update transactions
+router.put('/updateTransactions', async (req, res) => {
+    const { email, transactions } = req.body;
+
+    if (!email || !transactions) {
+        return res.status(400).json({ success: false, error: "Missing fields" });
+    }
+
+    try {
+        const userRef = db.collection('users').where('email', '==', email);
+        const snapshot = await userRef.get();
+
+        if (snapshot.empty) {
+            return res.status(400).json({ success: false, error: "User not found" });
+        }
+
+        snapshot.forEach(async (doc) => {
+            await doc.ref.update({ transactions });
+        });
+
+        res.status(200).json({ success: true, success_msg: "Transactions updated" });
+    } catch (error) {
+        console.error('Error updating transactions:', error);
+        res.status(400).json({ success: false, error: error.message });
+    }
+});
+
 module.exports = router;

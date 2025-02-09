@@ -1,22 +1,43 @@
 import colors from "../styles/globalVar";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     Animated,
+    ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CardWelcomeTab: React.FC = () => {
     const router = useRouter();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // Create an animated value for translateY
     const translateY = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        const loadUser = async () => {
+            try {
+                const storedUser = await AsyncStorage.getItem('user');
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    setUser(parsedUser);
+                } else {
+                    router.replace('/(auth)/sign-in');
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+            }
+            setLoading(false);
+        };
+
+        loadUser();
+
         // Create a continuous loop animation
         Animated.loop(
             Animated.sequence([
@@ -33,6 +54,18 @@ const CardWelcomeTab: React.FC = () => {
             ])
         ).start(); // Start the loop animation
     }, [translateY]);
+
+    const handleCreateCard = () => {
+        if (user && user.card && user.card.cardNumber) {
+            router.replace("/cardMenu");
+        } else {
+            router.replace("/cardCreate");
+        }
+    };
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -59,9 +92,7 @@ const CardWelcomeTab: React.FC = () => {
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {
-                        router.replace("/cardMenu");
-                    }}
+                    onPress={handleCreateCard}
                 >
                     <Text style={styles.buttonText}>Create your card now</Text>
                 </TouchableOpacity>
