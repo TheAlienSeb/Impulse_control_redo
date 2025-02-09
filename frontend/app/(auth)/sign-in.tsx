@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import axios from "axios";
+import colors from "../styles/globalVar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import images
