@@ -17,27 +17,33 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const backgroundImage = require("../../assets/images/background.png");
 const logoImage  =  require('../../assets/images/logo.png');
 
+const colors = {
+    text: 16,
+    primaryColor: "#3498db",
+    secondaryColor: "#2ecc71",
+};
+
 const SignIn = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    //const [loading, setLoading] = useState(true); // Tracks if session is being checked
+    const [loading, setLoading] = useState(true); // Tracks if session is being checked
 
-    // useEffect(() => {
-    //     const checkUserSession = async () => {
-    //         try {
-    //             const storedUser = await AsyncStorage.getItem('user');
-    //             if (storedUser) {
-    //                 router.replace('/home'); // Redirect if user is already signed in
-    //                 return;
-    //             }
-    //         } catch (error) {
-    //             console.error('Error checking user session:', error);
-    //         }
-    //         setLoading(false); // Stop loading once check is complete
-    //     };
+    useEffect(() => {
+        const checkUserSession = async () => {
+            try {
+                const storedUser = await AsyncStorage.getItem('user');
+                if (storedUser) {
+                    router.replace('/home'); // Redirect if user is already signed in
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking user session:', error);
+            }
+            setLoading(false); // Stop loading once check is complete
+        };
 
-    //     checkUserSession();
-    // }, []);
+        checkUserSession();
+    }, []);
 
     const handleSignIn = async () => {
         try {
@@ -60,6 +66,7 @@ const SignIn = () => {
             );
             Alert.alert("Error", "Invalid credentials");
         }
+        
     };
 
     return (
@@ -74,7 +81,7 @@ const SignIn = () => {
                     <TextInput
                         style={styles.input}
                         placeholder="Enter your email address..."
-                        placeholderTextColor="white"
+                        placeholderTextColor="black"
                         value={userEmail}
                         onChangeText={setUserEmail}
                     />
@@ -82,14 +89,14 @@ const SignIn = () => {
                     <TextInput
                         style={styles.input}
                         placeholder="Enter your password..."
-                        placeholderTextColor="white"
+                        placeholderTextColor="black"
                         secureTextEntry
                         value={userPassword}
                         onChangeText={setUserPassword}
                     />
                     <TouchableOpacity
                         style={styles.buttonStyle}
-                        onPress={handleSignIn}
+                        onPress={() => router.replace("../(root)/(tabs)/home")}
                     >
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
@@ -150,11 +157,11 @@ const styles = StyleSheet.create({
     input: {
         width: "100%",
         height: 50,
-        backgroundColor: colors.secondaryColor,
+        backgroundColor: "white",
         borderRadius: 10,
         paddingHorizontal: 10,
         marginVertical: 5,
-        color: "white",
+        color: "black",
     },
     buttonStyle: {
         width: "80%",

@@ -91,7 +91,7 @@ const SignUp = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            router.replace("/(auth)/sign-in");
+                            router.replace("/sign-in");
                         }}
                     >
                         <Text style={styles.alreadyHaveAccount}>
