@@ -1,5 +1,7 @@
 import colors from "../styles/globalVar";
 import React, { useState } from "react"; // Import useState
+import {router} from "expo-router"
+
 import {
     View,
     Text,
@@ -89,7 +91,7 @@ const Question2: React.FC = () => {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        router.replace("/question1");
+                        router.replace("../(root)/accountCreated");
                     }}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>

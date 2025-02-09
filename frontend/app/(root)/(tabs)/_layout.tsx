@@ -1,10 +1,11 @@
-import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Stack } from "expo-router";
 
-export default function Home () {
+const postLoginLayout = () => {
     return (
-        <SafeAreaView>
-            <Text>Home</Text>
-        </SafeAreaView>
-    );
-};
+        <Stack>
+            <Stack.Screen name="accountCreated" options={ { headerShown: false}}/>
+        </Stack>
+    )
+}
+
+export default postLoginLayout;
