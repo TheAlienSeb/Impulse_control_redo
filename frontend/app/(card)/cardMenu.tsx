@@ -205,8 +205,9 @@ const styles = StyleSheet.create({
     tab: {
         backgroundColor: colors.secondaryColor,
         padding: 10,
-        marginVertical: 8,
-        width: 400,
+        paddingHorizontal: 50,
+        marginVertical: 5,
+        width: "100%",
         flexDirection: "row",
         justifyContent: "space-around",
         borderRadius: 10,
