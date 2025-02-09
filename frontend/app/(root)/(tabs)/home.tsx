@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image, Dimensions } from 'react-native';
+import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image, Dimensions, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter, router } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // Import MaterialCommunityIcons
 import { BarChart } from 'react-native-chart-kit'; // Import BarChart
@@ -16,6 +16,8 @@ const screenWidth = Dimensions.get('window').width;
 const Home = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showAllTransactions, setShowAllTransactions] = useState(false);
+    const [animationHeight] = useState(new Animated.Value(0));
     const router = useRouter();
 
     useEffect(() => {
@@ -72,19 +74,30 @@ const Home = () => {
         }
     };
 
+    const handleToggleTransactions = () => {
+        if (showAllTransactions) {
+            Animated.timing(animationHeight, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false,
+            }).start(() => setShowAllTransactions(false));
+        } else {
+            setShowAllTransactions(true);
+            Animated.timing(animationHeight, {
+                toValue: user.transactions.length * 60, // Adjust height based on the number of transactions
+                duration: 300,
+                useNativeDriver: false,
+            }).start();
+        }
+    };
+
     if (loading) {
         return <ActivityIndicator size="large" color="#0369A1" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
-    const defaultTransactions = [
-        { description: 'Grocery Shopping', date: '2025-02-01', amount: 50 },
-        { description: 'Electricity Bill', date: '2025-02-05', amount: 75 },
-        { description: 'Internet Bill', date: '2025-02-10', amount: 60 },
-    ];
-
-    const transactionsToDisplay = user && user.transactions && user.transactions.length > 0
-        ? user.transactions.slice(0, 3)
-        : defaultTransactions;
+    const transactionsToDisplay = showAllTransactions
+        ? user.transactions
+        : user.transactions.slice(0, 3);
 
     const data = {
         labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
@@ -94,6 +107,18 @@ const Home = () => {
             },
         ],
     };
+
+    const cardNumberText = user && user.card && user.card.cardNumber
+        ? `Personal - ${user.card.cardNumber.slice(-4)}`
+        : "Not yet set up. Continue to card";
+
+    const morningText = user && user.fullName
+        ? `Morning, ${user.fullName}`
+        : "Morning";
+
+    const budgetText = user && user.balance
+        ? `${user.balance.toFixed(2)}`
+        : "$0.00";
 
     return (
         <ImageBackground 
@@ -105,17 +130,20 @@ const Home = () => {
                     <TouchableOpacity onPress={() => router.replace('/profile')} style={styles.profileButton}>
                         <Image source={profileIcon} style={styles.profileIcon} />
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.replace('/ai')} style={styles.profileButton}>
+                        <Image source={profileIcon} style={styles.profileIcon} />
+                    </TouchableOpacity>
                     <View style={styles.textContainerTwo}>
-                        <Text style={styles.textSmall}>Morning, John</Text>
+                        <Text style={styles.textSmall}>{morningText}</Text>
                         <MaterialCommunityIcons name="crown" size={20} color="gold" style={styles.crownIcon} />
                     </View>
                 </View>
                 <View style={styles.roundedContainer}>
                     <MaterialCommunityIcons name="credit-card" size={20} color="black" style={styles.creditCardIcon} />
-                    <Text style={styles.roundedContainerText}>Personal - 6693 </Text> {/* Add your card number here */}
+                    <Text style={styles.roundedContainerText}>{cardNumberText}</Text>
                 </View>
                 <View style={styles.textContainer}>
-                        <Text style={styles.text}>$103</Text>
+                        <Text style={styles.text}>{budgetText}</Text>
                         <Text style={styles.textSmall}>monthly spend</Text>
                 </View>
                 <View style={styles.cardButtonContainer}>
@@ -129,16 +157,25 @@ const Home = () => {
                 <Text style={styles.sectionTitle}>Latest Transactions</Text>
                 <View style={styles.transactionsContainer}>
                     <View style={styles.transactionTable}>
-                        {transactionsToDisplay.map((transaction, index) => (
-                            <View key={index} style={styles.transactionRow}>
-                                <View style={styles.transactionDetails}>
-                                    <Text style={styles.transactionText}>{transaction.description}</Text>
-                                    <Text style={styles.transactionDate}>{transaction.date}</Text>
+                        {transactionsToDisplay.length > 0 ? (
+                            transactionsToDisplay.map((transaction, index) => (
+                                <View key={index} style={styles.transactionRow}>
+                                    <View style={styles.transactionDetails}>
+                                        <Text style={styles.transactionText}>{transaction.description}</Text>
+                                        <Text style={styles.transactionDate}>{transaction.date}</Text>
+                                    </View>
+                                    <Text style={styles.transactionAmount}>${transaction.amount}</Text>
                                 </View>
-                                <Text style={styles.transactionAmount}>${transaction.amount}</Text>
-                            </View>
-                        ))}
+                            ))
+                        ) : (
+                            <Text style={styles.noTransactionsText}>No Transactions Yet...</Text>
+                        )}
                     </View>
+                    <TouchableOpacity onPress={handleToggleTransactions}>
+                        <Text style={styles.seeAllText}>
+                            {showAllTransactions ? "Show Less" : "Show More"}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.chartContainer}>
                     <Text style={styles.sectionTitleMonthlySpending}>Monthly Spending</Text>
@@ -172,10 +209,7 @@ const Home = () => {
                     
                 </SafeAreaView>
                 <View style={styles.container}>
-                    {/* <Text style={styles.heading}>Home</Text> */}
-                    {user && (
-                        <Text style={styles.userEmail}>Welcome, {user.email}!</Text>
-                    )}
+                     <Text style={styles.heading}>Home</Text>
                 </View>
             </ScrollView>
         </ImageBackground>
@@ -312,6 +346,20 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    noTransactionsText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginTop: 10,
+    },
+    seeAllText: {
+        color: '#0369A1',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginTop: 10,
     },
     chartContainer: {
         width: '90%',

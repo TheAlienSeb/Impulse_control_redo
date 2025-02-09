@@ -41,7 +41,7 @@ const SignUp = () => {
             // Redirect to the sign-in page (do not automatically store user data)
             setTimeout(() => {
                 router.replace("/(auth)/sign-in"); // Use your appropriate route path
-            }, 2000); // Optional delay for user to read the success message
+            }, 200); // Optional delay for user to read the success message
         } catch (error) {
             console.error("Error signing up:", error);
             Alert.alert(
