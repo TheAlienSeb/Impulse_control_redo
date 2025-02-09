@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.secondaryColor,
         marginVertical: 10,
     },
+    
 });
 
 export default ImpulseTab;
