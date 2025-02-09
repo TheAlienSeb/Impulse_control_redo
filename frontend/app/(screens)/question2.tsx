@@ -1,7 +1,5 @@
 import colors from "../styles/globalVar";
-import React, { useState } from "react"; // Import useState
-import { router } from "expo-router";
-
+import React, { useState } from "react";
 import {
     View,
     Text,
@@ -124,9 +122,7 @@ const Question2: React.FC = () => {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {
-                        router.replace("/home");
-                    }}
+                    onPress={handleUpdateBiggestSpendingExpenses}
                 >
                     <Text style={styles.buttonText}>I'm ready 🡒</Text>
                 </TouchableOpacity>
