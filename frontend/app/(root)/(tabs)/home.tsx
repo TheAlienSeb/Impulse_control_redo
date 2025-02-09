@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from "expo-router";
+import { useRouter, router } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // Import MaterialCommunityIcons
 import { BarChart } from 'react-native-chart-kit'; // Import BarChart
@@ -95,7 +95,7 @@ const Home = () => {
         >
             <SafeAreaView style={styles.navBar}>
                 <View style={styles.navContent}>
-                    <TouchableOpacity onPress={() => { /* Add your profile navigation logic here */ }} style={styles.profileButton}>
+                    <TouchableOpacity onPress={() => router.replace('/profile')} style={styles.profileButton}>
                         <Image source={profileIcon} style={styles.profileIcon} />
                     </TouchableOpacity>
                     <View style={styles.textContainerTwo}>

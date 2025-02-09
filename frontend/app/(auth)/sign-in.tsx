@@ -21,7 +21,7 @@ const logoImage = require("../../assets/images/logo.png");
 const SignIn = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
-    //const [loading, setLoading] = useState(true); // Tracks if session is being checked
+    const [loading, setLoading] = useState(false); // Initialize loading state
 
     useEffect(() => {
         const checkUserSession = async () => {
@@ -42,6 +42,7 @@ const SignIn = () => {
 
     const handleSignIn = async () => {
         try {
+            setLoading(true); // Start loading
             const response = await axios.post(
                 "http://localhost:5000/api/signin",
                 {
@@ -60,8 +61,9 @@ const SignIn = () => {
                 error.response?.data || error.message
             );
             Alert.alert("Error", "Invalid credentials");
+        } finally {
+            setLoading(false); // Stop loading
         }
-        
     };
 
     return (
@@ -91,7 +93,7 @@ const SignIn = () => {
                     />
                     <TouchableOpacity
                         style={styles.buttonStyle}
-                        onPress={() => router.replace("../(root)/(tabs)/home")}
+                        onPress={handleSignIn}
                     >
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
