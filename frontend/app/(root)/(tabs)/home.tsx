@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { Text, ScrollView, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 
-// Import images using import syntax
-import backgroundImage from '../../../assets/images/background.png';
-import logoImage from '../../../assets/images/logo.png';
+// Import images using require syntax
+const backgroundImage = require('../../../assets/images/background.png');
+const logoImage = require('../../../assets/images/logo.png');
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -73,7 +73,7 @@ const Home = () => {
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.logoContainer}>
-                    <ImageBackground 
+                    <Image 
                         source={logoImage} 
                         style={styles.logo}
                     />

@@ -11,7 +11,6 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Import the image
-import creditCardImage from "../../assets/images/creditcard.png";
 
 const CardWelcomeTab: React.FC = () => {
     const router = useRouter();
@@ -47,7 +46,7 @@ const CardWelcomeTab: React.FC = () => {
                     Make budget planning easier with our Smart Save Card.
                 </Text>
                 <Animated.Image
-                    source={creditCardImage}
+                    source={require("../../assets/images/creditcard.png")}
                     style={[
                         styles.image,
                         {

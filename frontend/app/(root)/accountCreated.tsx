@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { useRouter } from "expo-router";
 
 const AccountCreated = () => {
@@ -21,8 +21,8 @@ const AccountCreated = () => {
             resizeMode='cover'
         >
             <View style={styles.logoContainer}>
-                <ImageBackground 
-                    source={logo} 
+                <Image 
+                    source={require('../../assets/images/logo.png')} 
                     style={styles.logo}
                 />
                 {loading ? (

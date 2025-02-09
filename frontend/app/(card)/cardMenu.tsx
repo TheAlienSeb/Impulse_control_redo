@@ -72,7 +72,7 @@ const CardMenuTab: React.FC = () => {
     }
 
     const balanceText = `$${user.balance.toFixed(2)}`;
-    const availabilityText = user.balance > 20 ? "Available to spend." : "Unavailable to spend";
+    const availabilityText = user.balance > 20 ? "Available to spend." : `Unavailable to spend ($${user.balance.toFixed(2)})`;
     const cardNumberLast4 = user.card.cardNumber.slice(-4);
     const transactionsToShow = showAllTransactions ? user.transactions : user.transactions.slice(0, 3);
 
@@ -86,7 +86,7 @@ const CardMenuTab: React.FC = () => {
                 <Text style={styles.header}>{balanceText}</Text>
                 <Text style={styles.info}>{availabilityText}</Text>
                 <Image
-                    source={cardBgImage}
+                    source={require("../../assets/images/cardbg.jpg")}
                     style={styles.image}
                 ></Image>
                 <Text style={styles.header1}>Primary card ****{cardNumberLast4}</Text>
@@ -125,7 +125,7 @@ const CardMenuTab: React.FC = () => {
                         <Text style={styles.info}>No Transactions Yet...</Text>
                     ) : (
                         transactionsToShow.map((transaction, index) => (
-                            <View key={index} style={(styles.row, styles.tab)}>
+                            <View key={index} style={[styles.row, styles.tab]}>
                                 <View style={styles.colLeft}>
                                     <Text style={styles.infoWhite}>{transaction.type}</Text>
                                     <Text style={styles.info}>
