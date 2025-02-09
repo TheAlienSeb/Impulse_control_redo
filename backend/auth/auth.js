@@ -101,4 +101,57 @@ router.put('/updateProfile', async (req, res) => {
     }
 });
 
+// New endpoint to update full name
+router.put('/updateFullName', async (req, res) => {
+    const { email, fullName } = req.body;
+
+    if (!email || !fullName) {
+        return res.status(400).json({ success: false, error: "Missing fields" });
+    }
+
+    try {
+        const userRef = db.collection('users').where('email', '==', email);
+        const snapshot = await userRef.get();
+
+        if (snapshot.empty) {
+            return res.status(400).json({ success: false, error: "User not found" });
+        }
+
+        snapshot.forEach(async (doc) => {
+            await doc.ref.update({ fullName });
+        });
+        res.status(200).json({ success: true, success_msg: "Full name updated" });
+    } catch (error) {
+        console.error('Error updating full name:', error);
+        res.status(400).json({ success: false, error: error.message });
+    }
+});
+
+// New endpoint to update biggest spending expenses
+router.put('/updateBiggestSpendingExpenses', async (req, res) => {
+    const { email, biggestSpendingExpenses } = req.body;
+
+    if (!email || !biggestSpendingExpenses) {
+        return res.status(400).json({ success: false, error: "Missing fields" });
+    }
+
+    try {
+        const userRef = db.collection('users').where('email', '==', email);
+        const snapshot = await userRef.get();
+
+        if (snapshot.empty) {
+            return res.status(400).json({ success: false, error: "User not found" });
+        }
+
+        snapshot.forEach(async (doc) => {
+            await doc.ref.update({ biggestSpendingExpenses });
+        });
+
+        res.status(200).json({ success: true, success_msg: "Biggest spending expenses updated" });
+    } catch (error) {
+        console.error('Error updating biggest spending expenses:', error);
+        res.status(400).json({ success: false, error: error.message });
+    }
+});
+
 module.exports = router;
